@@ -106,9 +106,9 @@ const WatermarkTool: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 bg-gray-50 text-gray-900">
       <Card className="w-full max-w-6xl shadow-lg rounded-xl overflow-hidden border border-gray-200 bg-white">
-        <CardHeader className="bg-blue-600 text-white p-8">
+        <CardHeader className="bg-blue-600 text-white p-8 text-center">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-center md:text-left">
+            <div className="md:text-left">
               <CardTitle className="text-4xl font-bold tracking-tight">
                 Herramienta de Marca de Agua por Lotes
               </CardTitle>
@@ -117,11 +117,11 @@ const WatermarkTool: React.FC = () => {
               </p>
             </div>
             {selectedImages.length > 0 && (
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Button
                   onClick={handleDownloadAll}
                   disabled={isDownloading}
-                  className="px-6 py-3 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 flex items-center gap-2"
+                  className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 flex items-center gap-2"
                 >
                   {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
                   <Download className="h-4 w-4" />
@@ -129,7 +129,7 @@ const WatermarkTool: React.FC = () => {
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="px-6 py-3 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-white text-white hover:bg-blue-500 flex items-center gap-2"
+                  className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 border-white text-white hover:bg-blue-500 flex items-center gap-2"
                 >
                   Reiniciar
                   <RotateCcw className="h-4 w-4" />
