@@ -6,6 +6,7 @@ import { Slider } from "@/components/ui/slider";
 import { Download, ZoomIn, ZoomOut, Move } from "lucide-react";
 import { saveAs } from "file-saver";
 import { toast } from "sonner";
+import { trimImageToContent } from "@/utils/imageProcessingUtils"; // Import the new utility
 
 interface ImageFile {
   dataUrl: string;
@@ -28,16 +29,26 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
   const [offsetY, setOffsetY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
+  const [trimmedImageDataUrl, setTrimmedImageDataUrl] = useState<string | null>(null);
+
+  // Effect to trim image when the original image changes
+  useEffect(() => {
+    const processImage = async () => {
+      const trimmedUrl = await trimImageToContent(image.dataUrl);
+      setTrimmedImageDataUrl(trimmedUrl);
+    };
+    processImage();
+  }, [image.dataUrl]);
 
   const drawImageOnCanvas = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !image?.dataUrl) return;
+    if (!canvas || !trimmedImageDataUrl) return; // Use trimmedImageDataUrl
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const img = new Image();
-    img.src = image.dataUrl;
+    img.src = trimmedImageDataUrl; // Draw the trimmed image
 
     img.onload = () => {
       canvas.width = CANVAS_WIDTH;
@@ -82,18 +93,18 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
       ctx.strokeRect(marginX, marginY, safeAreaWidth, safeAreaHeight);
       ctx.setLineDash([]); // Reset line dash
     };
-  }, [image, scale, offsetX, offsetY]);
+  }, [trimmedImageDataUrl, scale, offsetX, offsetY]); // Depend on trimmedImageDataUrl
 
   useEffect(() => {
     drawImageOnCanvas();
   }, [drawImageOnCanvas]);
 
-  // Reset scale and position when image changes
+  // Reset scale and position when image or trimmed image changes
   useEffect(() => {
     setScale(1);
     setOffsetX(0);
     setOffsetY(0);
-  }, [image]);
+  }, [image, trimmedImageDataUrl]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -166,6 +177,7 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
 
       <Button
         onClick={handleDownloadClick}
+        disabled={!trimmedImageDataUrl}
         className="w-full max-w-xs flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
       >
         <Download className="h-4 w-4" /> Descargar Lienzo Editado
