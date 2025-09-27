@@ -140,6 +140,7 @@ const WatermarkTool: React.FC = () => {
           onImagesSelected={handleImagesSelected}
           onConfirm={handleConfirmUpload}
           hasImages={selectedImages.length > 0}
+          selectedImages={selectedImages} // Pasar selectedImages aquí
         />
       ) : (
         <ResizablePanelGroup direction="horizontal" className="h-full">
