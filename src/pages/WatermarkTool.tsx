@@ -5,7 +5,7 @@ import UploadDialog from "@/components/UploadDialog";
 import Sidebar from "@/components/Sidebar";
 import OriginalImageCard from "@/components/OriginalImageCard";
 import ImagePreviewDialog from "@/components/ImagePreviewDialog";
-import CanvasEditorView from "@/components/CanvasEditorView"; // Import the new editor view
+import CanvasEditorView from "@/components/CanvasEditorView";
 import { Card, CardContent } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import JSZip from "jszip";
@@ -34,7 +34,7 @@ const WatermarkTool: React.FC = () => {
   const [imageToPreview, setImageToPreview] = useState<ImageFile | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-  const [currentRightPanel, setCurrentRightPanel] = useState<'previews' | 'canvasEditor'>('previews'); // New state for right panel view
+  const [currentRightPanel, setCurrentRightPanel] = useState<'previews' | 'canvasEditor'>('previews');
 
   const watermarkImages = [ipsWatermark, rtgWatermark];
 
@@ -98,7 +98,7 @@ const WatermarkTool: React.FC = () => {
         if (productFolder) {
           const ipsFolder = productFolder.folder("SELLO DE AGUA IPS");
           const rtgFolder = productFolder.folder("SELLO DE AGUA RTG");
-          const canvasFolder = productFolder.folder("IMAGENES PARA LIENZO");
+          const blueFolder = productFolder.folder("BLUE"); // New folder for canvas images
 
           for (const image of groupedImages[code]) {
             const originalFilename = image.filename.split(".").slice(0, -1).join(".");
@@ -117,11 +117,11 @@ const WatermarkTool: React.FC = () => {
               rtgFolder?.file(`${originalFilename}-RTG.png`, rtgBlob);
             }
 
-            // Generate product canvas image (using the automatic utility for batch download)
+            // Generate product canvas image (CORTO) and add to "BLUE" folder
             const productCanvasDataUrl = await generateProductCanvasImage(image.dataUrl);
             if (productCanvasDataUrl) {
               const canvasBlob = await (await fetch(productCanvasDataUrl)).blob();
-              canvasFolder?.file(`${originalFilename}-Lienzo.png`, canvasBlob);
+              blueFolder?.file(`${originalFilename}-Lienzo.png`, canvasBlob);
             }
           }
         }
@@ -167,8 +167,8 @@ const WatermarkTool: React.FC = () => {
               isDownloading={isDownloading}
               onSelectGroup={setSelectedGroup}
               selectedGroup={selectedGroup}
-              onSelectRightPanel={setCurrentRightPanel} // Pass setter for right panel
-              currentRightPanel={currentRightPanel} // Pass current panel state
+              onSelectRightPanel={setCurrentRightPanel}
+              currentRightPanel={currentRightPanel}
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
