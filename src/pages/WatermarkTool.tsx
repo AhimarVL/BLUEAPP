@@ -7,7 +7,7 @@ import ImagePreviewDialog from "@/components/ImagePreviewDialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Download, RotateCcw } from "lucide-react"; // Import RotateCcw icon
+import { Download, RotateCcw } from "lucide-react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { applyWatermarkToImage } from "@/utils/watermarkUtils";
@@ -106,13 +106,37 @@ const WatermarkTool: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 bg-gray-50 text-gray-900">
       <Card className="w-full max-w-6xl shadow-lg rounded-xl overflow-hidden border border-gray-200 bg-white">
-        <CardHeader className="bg-blue-600 text-white p-8 text-center">
-          <CardTitle className="text-4xl font-bold tracking-tight">
-            Herramienta de Marca de Agua por Lotes
-          </CardTitle>
-          <p className="text-lg opacity-90 mt-2">
-            Carga tus imágenes, las agruparemos y aplicaremos marcas de agua automáticamente.
-          </p>
+        <CardHeader className="bg-blue-600 text-white p-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-center md:text-left">
+              <CardTitle className="text-4xl font-bold tracking-tight">
+                Herramienta de Marca de Agua por Lotes
+              </CardTitle>
+              <p className="text-lg opacity-90 mt-2">
+                Carga tus imágenes, las agruparemos y aplicaremos marcas de agua automáticamente.
+              </p>
+            </div>
+            {selectedImages.length > 0 && (
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  onClick={handleDownloadAll}
+                  disabled={isDownloading}
+                  className="px-6 py-3 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 flex items-center gap-2"
+                >
+                  {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
+                  <Download className="h-4 w-4" />
+                </Button>
+                <Button
+                  onClick={handleReset}
+                  variant="outline"
+                  className="px-6 py-3 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-white text-white hover:bg-blue-500 flex items-center gap-2"
+                >
+                  Reiniciar
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+          </div>
         </CardHeader>
         <CardContent className="flex flex-col items-center space-y-8 p-8">
           <ImageUploader onImagesSelected={handleImagesSelected} />
@@ -138,24 +162,6 @@ const WatermarkTool: React.FC = () => {
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center mt-8 space-x-4"> {/* Added space-x-4 for spacing */}
-                <Button
-                  onClick={handleDownloadAll}
-                  disabled={isDownloading}
-                  className="px-8 py-4 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-2"
-                >
-                  {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
-                  <Download className="h-5 w-5" />
-                </Button>
-                <Button
-                  onClick={handleReset}
-                  variant="outline" // Using outline variant for a secondary action
-                  className="px-8 py-4 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-gray-300 text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                >
-                  Reiniciar
-                  <RotateCcw className="h-5 w-5" />
-                </Button>
-              </div>
             </div>
           )}
           {selectedImages.length === 0 && (
