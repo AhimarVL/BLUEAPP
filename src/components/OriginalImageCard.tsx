@@ -21,7 +21,6 @@ const OriginalImageCard: React.FC<OriginalImageCardProps> = ({ image, onView }) 
           src={image.dataUrl}
           alt={image.filename}
           className="max-w-full max-h-full object-contain"
-          style={{ maxWidth: "300px", maxHeight: "300px" }}
         />
       </div>
       <Button onClick={() => onView(image)} className="w-full flex items-center justify-center gap-2">

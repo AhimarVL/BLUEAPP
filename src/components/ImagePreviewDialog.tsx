@@ -46,7 +46,6 @@ const ImagePreviewDialog: React.FC<ImagePreviewDialogProps> = ({
                 src={originalImage.dataUrl}
                 alt={originalImage.filename}
                 className="max-w-full max-h-full object-contain"
-                style={{ maxWidth: "300px", maxHeight: "300px" }}
               />
             </div>
             {/* No download button for original here, can add if needed */}
