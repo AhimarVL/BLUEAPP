@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 
 interface WatermarkPreviewProps {
   image: { dataUrl: string; filename: string } | null;
-  watermarkTexts: string[];
+  watermarkImageSrc: string; // Changed from watermarkTexts to watermarkImageSrc
 }
 
 const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
   image,
-  watermarkTexts,
+  watermarkImageSrc,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -30,47 +30,32 @@ const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0);
 
-      if (watermarkTexts && watermarkTexts.length > 0) {
-        ctx.font = "bold 72px Arial";
-        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-        ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
-        ctx.shadowOffsetX = 3;
-        ctx.shadowOffsetY = 3;
-        ctx.shadowBlur = 5;
+      // Draw watermark image
+      if (watermarkImageSrc) {
+        const watermarkImg = new Image();
+        watermarkImg.src = watermarkImageSrc;
+        watermarkImg.onload = () => {
+          // Calculate position to center the watermark
+          const wmWidth = watermarkImg.width;
+          const wmHeight = watermarkImg.height;
+          const x = (canvas.width - wmWidth) / 2;
+          const y = (canvas.height - wmHeight) / 2;
 
-        const padding = 50;
-
-        // Watermark 1: IPS (Top-Left)
-        const text1 = watermarkTexts[0];
-        if (text1) {
-          ctx.textAlign = "left";
-          ctx.textBaseline = "top";
-          ctx.fillText(text1, padding, padding);
-        }
-
-        // Watermark 2: RTG (Bottom-Right)
-        const text2 = watermarkTexts[1];
-        if (text2) {
-          ctx.textAlign = "right";
-          ctx.textBaseline = "bottom";
-          ctx.fillText(text2, canvas.width - padding, canvas.height - padding);
-        }
-
-        // Reset shadow
-        ctx.shadowColor = "transparent";
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowBlur = 0;
+          ctx.globalAlpha = 0.5; // Set transparency for the watermark
+          ctx.drawImage(watermarkImg, x, y, wmWidth, wmHeight);
+          ctx.globalAlpha = 1.0; // Reset transparency
+        };
       }
     };
-  }, [image, watermarkTexts]);
+  }, [image, watermarkImageSrc]);
 
   const handleDownload = () => {
     const canvas = canvasRef.current;
     if (canvas && image) {
       const link = document.createElement("a");
       const originalFilename = image.filename.split(".").slice(0, -1).join(".");
-      link.download = `${originalFilename}-watermarked.png`;
+      const watermarkName = watermarkImageSrc.split('/').pop()?.split('.')[0] || 'watermarked';
+      link.download = `${originalFilename}-${watermarkName}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
     }

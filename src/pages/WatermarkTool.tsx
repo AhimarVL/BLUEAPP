@@ -6,6 +6,10 @@ import WatermarkPreview from "@/components/WatermarkPreview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
+// Import watermark images
+import ipsWatermark from "@/assets/ips.png";
+import rtgWatermark from "@/assets/rtg.png";
+
 interface ImageFile {
   dataUrl: string;
   filename: string;
@@ -17,7 +21,7 @@ interface GroupedImages {
 
 const WatermarkTool: React.FC = () => {
   const [selectedImages, setSelectedImages] = useState<ImageFile[]>([]);
-  const fixedWatermarks = ["IPS", "RTG"];
+  const watermarkImages = [ipsWatermark, rtgWatermark]; // Array of watermark image paths
 
   const groupedImages = useMemo(() => {
     const groups: GroupedImages = {};
@@ -51,11 +55,16 @@ const WatermarkTool: React.FC = () => {
                   <h3 className="text-xl font-bold mb-4 text-center">Código: {code}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
                     {images.map((image, index) => (
-                      <WatermarkPreview
-                        key={`${code}-${index}`}
-                        image={image}
-                        watermarkTexts={fixedWatermarks}
-                      />
+                      // Render two previews for each image, one for each watermark
+                      <React.Fragment key={`${code}-${index}`}>
+                        {watermarkImages.map((wmSrc, wmIndex) => (
+                          <WatermarkPreview
+                            key={`${code}-${index}-${wmIndex}`}
+                            image={image}
+                            watermarkImageSrc={wmSrc}
+                          />
+                        ))}
+                      </React.Fragment>
                     ))}
                   </div>
                 </div>
