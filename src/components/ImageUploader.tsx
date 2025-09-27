@@ -1,16 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { UploadCloud } from "lucide-react";
+import { cn } from "@/lib/utils"; // Import cn for conditional class merging
 
 interface ImageUploaderProps {
   onImagesSelected: (images: { dataUrl: string; filename: string }[]) => void;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLDivElement>) => {
+    const files = (event as React.ChangeEvent<HTMLInputElement>).target?.files || (event as React.DragEvent<HTMLDivElement>).dataTransfer?.files;
+
     if (files && files.length > 0) {
       const imagePromises = Array.from(files).map((file) => {
         return new Promise<{ dataUrl: string; filename: string }>((resolve) => {
@@ -30,23 +36,67 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
     }
   };
 
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+    handleFileChange(event);
+  };
+
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
-    <div className="grid w-full max-w-md items-center gap-3 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
-      <Label htmlFor="pictures" className="text-lg font-semibold text-gray-800">
-        Cargar Imágenes (1500x1500)
-      </Label>
-      <Input
-        id="pictures"
-        type="file"
-        accept="image/*"
-        multiple
-        onChange={handleFileChange}
-        className="file:text-blue-600 file:font-medium file:bg-blue-50 file:border-blue-200 file:rounded-md file:px-4 file:py-2 file:mr-4 hover:file:bg-blue-100 transition-colors duration-200"
-      />
-      <p className="text-sm text-gray-500 mt-1">
-        Por favor, sube imágenes de 1500x1500 píxeles para mejores resultados.
-      </p>
-    </div>
+    <Card
+      className={cn(
+        "w-full max-w-2xl p-6 text-center cursor-pointer transition-all duration-300 ease-in-out",
+        "border-2 border-dashed rounded-xl",
+        isDragging
+          ? "border-blue-500 bg-blue-50 dark:bg-blue-950/20"
+          : "border-gray-300 bg-gray-50 hover:border-blue-400 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-600 dark:hover:bg-gray-700",
+      )}
+      onClick={handleClick}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      <CardHeader className="pb-4">
+        <CardTitle className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          Cargar Imágenes (1500x1500)
+        </CardTitle>
+        <CardDescription className="text-gray-600 dark:text-gray-400">
+          Arrastra y suelta tus imágenes aquí, o haz clic para seleccionarlas.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center justify-center space-y-4">
+        <UploadCloud className="h-16 w-16 text-blue-500 dark:text-blue-400" />
+        <p className="text-lg font-medium text-gray-700 dark:text-gray-200">
+          Haz clic o arrastra archivos para subir
+        </p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Sube imágenes de 1500x1500 píxeles para mejores resultados.
+        </p>
+        <Input
+          id="pictures"
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={handleFileChange}
+          ref={fileInputRef}
+          className="hidden" // Visually hide the input
+        />
+      </CardContent>
+    </Card>
   );
 };
 
