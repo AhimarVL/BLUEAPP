@@ -5,7 +5,7 @@ import UploadDialog from "@/components/UploadDialog";
 import Sidebar from "@/components/Sidebar";
 import OriginalImageCard from "@/components/OriginalImageCard";
 import ImagePreviewDialog from "@/components/ImagePreviewDialog";
-import CanvasPreviewsDialog from "@/components/CanvasPreviewsDialog"; // Import the new dialog
+import CanvasEditorDialog from "@/components/CanvasEditorDialog"; // Import the new editor dialog
 import { Card, CardContent } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import JSZip from "jszip";
@@ -34,7 +34,7 @@ const WatermarkTool: React.FC = () => {
   const [imageToPreview, setImageToPreview] = useState<ImageFile | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-  const [isCanvasPreviewsDialogOpen, setIsCanvasPreviewsDialogOpen] = useState(false); // New state for canvas previews dialog
+  const [isCanvasEditorDialogOpen, setIsCanvasEditorDialogOpen] = useState(false); // Updated state name
 
   const watermarkImages = [ipsWatermark, rtgWatermark];
 
@@ -83,7 +83,7 @@ const WatermarkTool: React.FC = () => {
     setIsImagePreviewDialogOpen(false);
     setIsDownloading(false);
     setSelectedGroup(null);
-    setIsCanvasPreviewsDialogOpen(false); // Reset canvas dialog state
+    setIsCanvasEditorDialogOpen(false); // Reset canvas editor dialog state
     toast.success("Aplicación reiniciada. ¡Carga nuevas imágenes!");
   };
 
@@ -116,7 +116,7 @@ const WatermarkTool: React.FC = () => {
               rtgFolder?.file(`${originalFilename}-RTG.png`, rtgBlob);
             }
 
-            // Generate product canvas image
+            // Generate product canvas image (using the automatic utility for batch download)
             const productCanvasDataUrl = await generateProductCanvasImage(image.dataUrl);
             if (productCanvasDataUrl) {
               const canvasBlob = await (await fetch(productCanvasDataUrl)).blob();
@@ -137,12 +137,12 @@ const WatermarkTool: React.FC = () => {
     }
   };
 
-  const handlePreviewCanvas = () => {
+  const handleOpenCanvasEditor = () => {
     if (selectedImages.length === 0) {
-      toast.info("Por favor, carga imágenes para previsualizar los lienzos.");
+      toast.info("Por favor, carga imágenes para usar el editor de lienzos.");
       return;
     }
-    setIsCanvasPreviewsDialogOpen(true);
+    setIsCanvasEditorDialogOpen(true);
   };
 
   return (
@@ -173,7 +173,7 @@ const WatermarkTool: React.FC = () => {
               isDownloading={isDownloading}
               onSelectGroup={setSelectedGroup}
               selectedGroup={selectedGroup}
-              onPreviewCanvas={handlePreviewCanvas} // Pass the new handler
+              onPreviewCanvas={handleOpenCanvasEditor} // Pass the new handler
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
@@ -211,9 +211,9 @@ const WatermarkTool: React.FC = () => {
         />
       )}
 
-      <CanvasPreviewsDialog
-        isOpen={isCanvasPreviewsDialogOpen}
-        onClose={() => setIsCanvasPreviewsDialogOpen(false)}
+      <CanvasEditorDialog
+        isOpen={isCanvasEditorDialogOpen}
+        onClose={() => setIsCanvasEditorDialogOpen(false)}
         images={selectedImages}
       />
     </div>
