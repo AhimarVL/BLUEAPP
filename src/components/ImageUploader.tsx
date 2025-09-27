@@ -31,8 +31,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
   };
 
   return (
-    <div className="grid w-full max-w-md items-center gap-3 p-6 bg-background/50 rounded-lg shadow-md border border-border">
-      <Label htmlFor="pictures" className="text-lg font-semibold text-foreground">
+    <div className="grid w-full max-w-md items-center gap-3 p-6 bg-card/50 rounded-lg shadow-md border border-border relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-20"></div>
+      <Label htmlFor="pictures" className="text-lg font-semibold text-foreground relative z-10">
         Cargar Imágenes (1500x1500)
       </Label>
       <Input
@@ -41,9 +42,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
         accept="image/*"
         multiple
         onChange={handleFileChange}
-        className="file:text-primary file:font-medium file:bg-primary/10 file:border-primary/30 file:rounded-md file:px-4 file:py-2 file:mr-4 hover:file:bg-primary/20 transition-colors duration-200"
+        className="file:text-primary file:font-medium file:bg-primary/10 file:border-primary/30 file:rounded-md file:px-4 file:py-2 file:mr-4 hover:file:bg-primary/20 transition-colors duration-200 relative z-10"
       />
-      <p className="text-sm text-muted-foreground mt-1">
+      <p className="text-sm text-muted-foreground mt-1 relative z-10">
         Por favor, sube imágenes de 1500x1500 píxeles para mejores resultados.
       </p>
     </div>

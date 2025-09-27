@@ -28,8 +28,9 @@ const ImagePreviewDialog: React.FC<ImagePreviewDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl p-8 bg-card border border-border rounded-xl shadow-2xl">
-        <DialogHeader className="pb-4">
+      <DialogContent className="max-w-5xl p-8 bg-card border border-border rounded-xl shadow-2xl relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-10"></div>
+        <DialogHeader className="pb-4 relative z-10">
           <DialogTitle className="text-3xl font-bold text-center text-foreground">
             Previsualización de Imagen: {originalImage.filename}
           </DialogTitle>
@@ -37,7 +38,7 @@ const ImagePreviewDialog: React.FC<ImagePreviewDialogProps> = ({
             Aquí puedes ver la imagen original y sus versiones con marca de agua.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6 relative z-10">
           {/* Original Image */}
           <div className="flex flex-col items-center space-y-4 p-5 border border-border rounded-lg bg-background/50 shadow-md">
             <p className="text-xl font-semibold text-foreground">Original</p>
@@ -59,8 +60,8 @@ const ImagePreviewDialog: React.FC<ImagePreviewDialogProps> = ({
             />
           ))}
         </div>
-        <div className="flex justify-end mt-8">
-          <Button onClick={onClose} className="px-6 py-3 text-lg">Cerrar</Button>
+        <div className="flex justify-end mt-8 relative z-10">
+          <Button onClick={onClose} className="px-6 py-3 text-lg bg-primary text-primary-foreground hover:bg-primary/90">Cerrar</Button>
         </div>
       </DialogContent>
     </Dialog>

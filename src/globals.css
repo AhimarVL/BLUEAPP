@@ -32,7 +32,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.75rem; /* Slightly larger radius for a softer, modern look */
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -45,33 +45,33 @@
   }
 
   .dark {
-    --background: 220 13% 10%; /* Darker, more techy background */
-    --foreground: 210 40% 98%;
+    --background: 220 13% 6%; /* Fondo muy oscuro para un look futurista */
+    --foreground: 210 40% 98%; /* Texto claro */
 
-    --card: 220 13% 15%; /* Slightly lighter than background for contrast */
+    --card: 220 13% 10%; /* Tarjetas ligeramente más claras que el fondo */
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 13% 15%;
+    --popover: 220 13% 10%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217.2 91.2% 59.8%; /* A vibrant blue for primary actions */
+    --primary: 240 80% 60%; /* Un azul/púrpura vibrante para acciones principales */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217.2 32.6% 25%; /* Darker secondary for subtle elements */
+    --secondary: 220 13% 20%; /* Secundario más oscuro para elementos sutiles */
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 20%;
+    --muted: 220 13% 15%; /* Muted para fondos de elementos interactivos */
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 25%;
+    --accent: 240 80% 60%; /* Acento igual que primary para consistencia */
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 20%; /* Darker border */
-    --input: 217.2 32.6% 20%;
-    --ring: 217.2 91.2% 59.8%; /* Ring matches primary for focus */
+    --border: 220 13% 25%; /* Bordes más visibles pero sutiles */
+    --input: 220 13% 15%; /* Input con fondo oscuro */
+    --ring: 240 80% 60%; /* Ring de foco con color primario */
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
