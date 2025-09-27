@@ -2,10 +2,11 @@
 
 import React, { useState, useMemo } from "react";
 import ImageUploader from "@/components/ImageUploader";
-import WatermarkPreview from "@/components/WatermarkPreview";
+import OriginalImageCard from "@/components/OriginalImageCard"; // Import the new component
+import ImagePreviewDialog from "@/components/ImagePreviewDialog"; // Import the new dialog component
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge"; // Import Badge for grouping codes
+import { Badge } from "@/components/ui/badge";
 
 // Import watermark images
 import ipsWatermark from "@/assets/ips.png";
@@ -22,6 +23,8 @@ interface GroupedImages {
 
 const WatermarkTool: React.FC = () => {
   const [selectedImages, setSelectedImages] = useState<ImageFile[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [imageToPreview, setImageToPreview] = useState<ImageFile | null>(null);
   const watermarkImages = [ipsWatermark, rtgWatermark]; // Array of watermark image paths
 
   const groupedImages = useMemo(() => {
@@ -38,6 +41,11 @@ const WatermarkTool: React.FC = () => {
     });
     return groups;
   }, [selectedImages]);
+
+  const handleViewImage = (image: ImageFile) => {
+    setImageToPreview(image);
+    setIsDialogOpen(true);
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
@@ -56,7 +64,7 @@ const WatermarkTool: React.FC = () => {
           {Object.keys(groupedImages).length > 0 && (
             <div className="w-full space-y-10">
               <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-200">
-                Imágenes Agrupadas y Previsualización
+                Imágenes Agrupadas
               </h2>
               {Object.entries(groupedImages).map(([code, images]) => (
                 <div key={code} className="border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-md bg-white dark:bg-gray-800">
@@ -65,15 +73,11 @@ const WatermarkTool: React.FC = () => {
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
                     {images.map((image, index) => (
-                      <React.Fragment key={`${code}-${index}`}>
-                        {watermarkImages.map((wmSrc, wmIndex) => (
-                          <WatermarkPreview
-                            key={`${code}-${index}-${wmIndex}`}
-                            image={image}
-                            watermarkImageSrc={wmSrc}
-                          />
-                        ))}
-                      </React.Fragment>
+                      <OriginalImageCard
+                        key={`${code}-${index}`}
+                        image={image}
+                        onView={handleViewImage}
+                      />
                     ))}
                   </div>
                 </div>
@@ -87,6 +91,15 @@ const WatermarkTool: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {imageToPreview && (
+        <ImagePreviewDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          originalImage={imageToPreview}
+          watermarkImages={watermarkImages}
+        />
+      )}
     </div>
   );
 };
