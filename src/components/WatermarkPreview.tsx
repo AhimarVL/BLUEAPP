@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card"; // Import Card components
+import { Card, CardContent } from "@/components/ui/card";
 
 interface WatermarkPreviewProps {
   image: { dataUrl: string; filename: string } | null;
@@ -57,17 +57,17 @@ const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
     }
   };
 
+  const watermarkLabel = watermarkImageSrc.includes("ips") ? "IPS" : "RTG";
+
   return (
-    <Card className="flex flex-col items-center space-y-3 p-4 shadow-sm hover:shadow-md transition-shadow duration-200 bg-white dark:bg-gray-800 w-full max-w-[300px]">
+    <Card className="flex flex-col items-center space-y-4 p-5 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card border border-border rounded-lg w-full max-w-[300px]">
       {image ? (
         <>
-          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 text-center break-all">
-            {image.filename}
-          </p>
-          <div className="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden w-full aspect-square flex items-center justify-center">
-            <canvas ref={canvasRef} className="max-w-full max-h-full object-contain" />
+          <p className="text-xl font-semibold text-foreground">Marca de Agua {watermarkLabel}</p>
+          <div className="border border-border rounded-md overflow-hidden w-full aspect-square flex items-center justify-center bg-muted/20">
+            <canvas ref={canvasRef} className="max-w-full max-h-full object-contain p-1" />
           </div>
-          <Button onClick={handleDownload} className="w-full">
+          <Button onClick={handleDownload} className="w-full text-primary-foreground bg-primary hover:bg-primary/90">
             Descargar
           </Button>
         </>

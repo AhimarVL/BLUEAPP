@@ -31,11 +31,20 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
   };
 
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
-      <Label htmlFor="pictures">Cargar Imágenes (1500x1500)</Label>
-      <Input id="pictures" type="file" accept="image/*" multiple onChange={handleFileChange} />
-      <p className="text-sm text-muted-foreground">
-        Por favor, sube imágenes de 1500x1500 píxeles.
+    <div className="grid w-full max-w-md items-center gap-3 p-6 bg-background/50 rounded-lg shadow-md border border-border">
+      <Label htmlFor="pictures" className="text-lg font-semibold text-foreground">
+        Cargar Imágenes (1500x1500)
+      </Label>
+      <Input
+        id="pictures"
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={handleFileChange}
+        className="file:text-primary file:font-medium file:bg-primary/10 file:border-primary/30 file:rounded-md file:px-4 file:py-2 file:mr-4 hover:file:bg-primary/20 transition-colors duration-200"
+      />
+      <p className="text-sm text-muted-foreground mt-1">
+        Por favor, sube imágenes de 1500x1500 píxeles para mejores resultados.
       </p>
     </div>
   );
