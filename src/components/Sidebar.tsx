@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Plus, Download, RotateCcw, Image as ImageIcon } from "lucide-react";
+import { Plus, Download, RotateCcw, Image as ImageIcon, LayoutDashboard } from "lucide-react"; // Import LayoutDashboard icon
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +24,7 @@ interface SidebarProps {
   isDownloading: boolean;
   onSelectGroup: (code: string | null) => void;
   selectedGroup: string | null;
+  onPreviewCanvas: () => void; // New prop for canvas preview
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -34,6 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   isDownloading,
   onSelectGroup,
   selectedGroup,
+  onPreviewCanvas, // Destructure new prop
 }) => {
   return (
     <div className="flex flex-col h-full bg-card border-r border-border p-4">
@@ -51,6 +53,19 @@ const Sidebar: React.FC<SidebarProps> = ({
         >
           {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
           <Download className="h-4 w-4" />
+        </Button>
+      </div>
+
+      <Separator className="my-4" />
+
+      {/* Nuevo apartado para previsualizar lienzos */}
+      <div className="mb-6">
+        <Button
+          onClick={onPreviewCanvas}
+          disabled={Object.keys(groupedImages).length === 0}
+          className="w-full flex items-center justify-center gap-2 bg-accent text-accent-foreground hover:bg-accent/80"
+        >
+          <LayoutDashboard className="h-4 w-4" /> Previsualizar Lienzos
         </Button>
       </div>
 

@@ -5,12 +5,13 @@ import UploadDialog from "@/components/UploadDialog";
 import Sidebar from "@/components/Sidebar";
 import OriginalImageCard from "@/components/OriginalImageCard";
 import ImagePreviewDialog from "@/components/ImagePreviewDialog";
+import CanvasPreviewsDialog from "@/components/CanvasPreviewsDialog"; // Import the new dialog
 import { Card, CardContent } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { applyWatermarkToImage } from "@/utils/watermarkUtils";
-import { generateProductCanvasImage } from "@/utils/imageProcessingUtils"; // Import the new utility
+import { generateProductCanvasImage } from "@/utils/imageProcessingUtils";
 import { toast } from "sonner";
 
 // Import watermark images
@@ -32,7 +33,8 @@ const WatermarkTool: React.FC = () => {
   const [isImagePreviewDialogOpen, setIsImagePreviewDialogOpen] = useState(false);
   const [imageToPreview, setImageToPreview] = useState<ImageFile | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null); // State for selected image group in sidebar
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+  const [isCanvasPreviewsDialogOpen, setIsCanvasPreviewsDialogOpen] = useState(false); // New state for canvas previews dialog
 
   const watermarkImages = [ipsWatermark, rtgWatermark];
 
@@ -77,10 +79,11 @@ const WatermarkTool: React.FC = () => {
   const handleReset = () => {
     setSelectedImages([]);
     setImageToPreview(null);
-    setIsUploadDialogOpen(true); // Show upload dialog again
+    setIsUploadDialogOpen(true);
     setIsImagePreviewDialogOpen(false);
     setIsDownloading(false);
     setSelectedGroup(null);
+    setIsCanvasPreviewsDialogOpen(false); // Reset canvas dialog state
     toast.success("Aplicación reiniciada. ¡Carga nuevas imágenes!");
   };
 
@@ -94,7 +97,7 @@ const WatermarkTool: React.FC = () => {
         if (productFolder) {
           const ipsFolder = productFolder.folder("SELLO DE AGUA IPS");
           const rtgFolder = productFolder.folder("SELLO DE AGUA RTG");
-          const canvasFolder = productFolder.folder("IMAGENES PARA LIENZO"); // New folder for canvas images
+          const canvasFolder = productFolder.folder("IMAGENES PARA LIENZO");
 
           for (const image of groupedImages[code]) {
             const originalFilename = image.filename.split(".").slice(0, -1).join(".");
@@ -134,6 +137,14 @@ const WatermarkTool: React.FC = () => {
     }
   };
 
+  const handlePreviewCanvas = () => {
+    if (selectedImages.length === 0) {
+      toast.info("Por favor, carga imágenes para previsualizar los lienzos.");
+      return;
+    }
+    setIsCanvasPreviewsDialogOpen(true);
+  };
+
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
       {isUploadDialogOpen ? (
@@ -149,7 +160,7 @@ const WatermarkTool: React.FC = () => {
           onImagesSelected={handleImagesSelected}
           onConfirm={handleConfirmUpload}
           hasImages={selectedImages.length > 0}
-          selectedImages={selectedImages} // Pasar selectedImages aquí
+          selectedImages={selectedImages}
         />
       ) : (
         <ResizablePanelGroup direction="horizontal" className="h-full">
@@ -162,11 +173,12 @@ const WatermarkTool: React.FC = () => {
               isDownloading={isDownloading}
               onSelectGroup={setSelectedGroup}
               selectedGroup={selectedGroup}
+              onPreviewCanvas={handlePreviewCanvas} // Pass the new handler
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={80}>
-            <div className="h-full overflow-y-auto p-8 bg-white dark:bg-gray-950"> {/* Preview area with white background */}
+            <div className="h-full overflow-y-auto p-8 bg-white dark:bg-gray-950">
               <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
                 Previsualización de Imágenes
               </h2>
@@ -198,6 +210,12 @@ const WatermarkTool: React.FC = () => {
           watermarkImages={watermarkImages}
         />
       )}
+
+      <CanvasPreviewsDialog
+        isOpen={isCanvasPreviewsDialogOpen}
+        onClose={() => setIsCanvasPreviewsDialogOpen(false)}
+        images={selectedImages}
+      />
     </div>
   );
 };
