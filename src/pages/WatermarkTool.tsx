@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import ImageUploader from "@/components/ImageUploader";
+import UploadDialog from "@/components/UploadDialog";
+import Sidebar from "@/components/Sidebar";
 import OriginalImageCard from "@/components/OriginalImageCard";
 import ImagePreviewDialog from "@/components/ImagePreviewDialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Download, RotateCcw } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { applyWatermarkToImage } from "@/utils/watermarkUtils";
+import { toast } from "sonner";
 
 // Import watermark images
 import ipsWatermark from "@/assets/ips.png";
@@ -27,10 +27,13 @@ interface GroupedImages {
 
 const WatermarkTool: React.FC = () => {
   const [selectedImages, setSelectedImages] = useState<ImageFile[]>([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(true);
+  const [isImagePreviewDialogOpen, setIsImagePreviewDialogOpen] = useState(false);
   const [imageToPreview, setImageToPreview] = useState<ImageFile | null>(null);
-  const watermarkImages = [ipsWatermark, rtgWatermark];
   const [isDownloading, setIsDownloading] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null); // State for selected image group in sidebar
+
+  const watermarkImages = [ipsWatermark, rtgWatermark];
 
   const groupedImages = useMemo(() => {
     const groups: GroupedImages = {};
@@ -46,20 +49,38 @@ const WatermarkTool: React.FC = () => {
     return groups;
   }, [selectedImages]);
 
+  const displayedImages = useMemo(() => {
+    if (selectedGroup === null) {
+      return selectedImages;
+    }
+    return groupedImages[selectedGroup] || [];
+  }, [selectedImages, groupedImages, selectedGroup]);
+
   const handleViewImage = (image: ImageFile) => {
     setImageToPreview(image);
-    setIsDialogOpen(true);
+    setIsImagePreviewDialogOpen(true);
   };
 
   const handleImagesSelected = (newImages: ImageFile[]) => {
     setSelectedImages((prevImages) => [...prevImages, ...newImages]);
   };
 
+  const handleConfirmUpload = () => {
+    if (selectedImages.length > 0) {
+      setIsUploadDialogOpen(false);
+    } else {
+      toast.error("Por favor, carga al menos una imagen para continuar.");
+    }
+  };
+
   const handleReset = () => {
     setSelectedImages([]);
     setImageToPreview(null);
-    setIsDialogOpen(false);
+    setIsUploadDialogOpen(true); // Show upload dialog again
+    setIsImagePreviewDialogOpen(false);
     setIsDownloading(false);
+    setSelectedGroup(null);
+    toast.success("Aplicación reiniciada. ¡Carga nuevas imágenes!");
   };
 
   const handleDownloadAll = async () => {
@@ -95,87 +116,74 @@ const WatermarkTool: React.FC = () => {
 
       const content = await zip.generateAsync({ type: "blob" });
       saveAs(content, "imagenes_con_marca_de_agua.zip");
+      toast.success("¡Todas las imágenes con marca de agua han sido descargadas!");
     } catch (error) {
       console.error("Error al generar el ZIP:", error);
-      // Optionally show a toast notification for error
+      toast.error("Error al descargar las imágenes. Inténtalo de nuevo.");
     } finally {
       setIsDownloading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center py-12 px-4 bg-gray-50 text-gray-900">
-      <Card className="w-full max-w-6xl shadow-lg rounded-xl overflow-hidden border border-gray-200 bg-white">
-        <CardHeader className="bg-blue-600 text-white p-8 text-center">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="md:text-left">
-              <CardTitle className="text-4xl font-bold tracking-tight">
-                Herramienta de Marca de Agua por Lotes
-              </CardTitle>
-              <p className="text-lg opacity-90 mt-2">
-                Carga tus imágenes, las agruparemos y aplicaremos marcas de agua automáticamente.
-              </p>
-            </div>
-            {selectedImages.length > 0 && (
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  onClick={handleDownloadAll}
-                  disabled={isDownloading}
-                  className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 bg-white text-blue-600 hover:bg-blue-50 flex items-center gap-2"
-                >
-                  {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
-                  <Download className="h-4 w-4" />
-                </Button>
-                <Button
-                  onClick={handleReset}
-                  variant="outline"
-                  className="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 border-white text-white hover:bg-blue-500 flex items-center gap-2"
-                >
-                  Reiniciar
-                  <RotateCcw className="h-4 w-4" />
-                </Button>
-              </div>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center space-y-8 p-8">
-          <ImageUploader onImagesSelected={handleImagesSelected} />
-
-          {Object.keys(groupedImages).length > 0 && (
-            <div className="w-full space-y-10">
-              <h2 className="text-3xl font-bold text-center text-gray-800">
-                Imágenes Agrupadas
+    <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
+      {isUploadDialogOpen ? (
+        <UploadDialog
+          isOpen={isUploadDialogOpen}
+          onClose={() => {
+            if (selectedImages.length > 0) {
+              setIsUploadDialogOpen(false);
+            } else {
+              toast.info("Por favor, carga imágenes o cancela para salir.");
+            }
+          }}
+          onImagesSelected={handleImagesSelected}
+          onConfirm={handleConfirmUpload}
+          hasImages={selectedImages.length > 0}
+        />
+      ) : (
+        <ResizablePanelGroup direction="horizontal" className="h-full">
+          <ResizablePanel defaultSize={20} minSize={15} maxSize={25}>
+            <Sidebar
+              onReset={handleReset}
+              onAddImages={() => setIsUploadDialogOpen(true)}
+              onDownloadAll={handleDownloadAll}
+              groupedImages={groupedImages}
+              isDownloading={isDownloading}
+              onSelectGroup={setSelectedGroup}
+              selectedGroup={selectedGroup}
+            />
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={80}>
+            <div className="h-full overflow-y-auto p-8 bg-white dark:bg-gray-950"> {/* Preview area with white background */}
+              <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
+                Previsualización de Imágenes
               </h2>
-              {Object.entries(groupedImages).map(([code, images]) => (
-                <div key={code} className="border border-gray-200 p-6 rounded-lg shadow-sm bg-gray-50">
-                  <h3 className="text-2xl font-semibold mb-6 text-center flex items-center justify-center gap-3 text-blue-700">
-                    Código: <Badge variant="outline" className="text-lg px-4 py-1.5 bg-blue-100 text-blue-700 border-blue-300">{code}</Badge>
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
-                    {images.map((image, index) => (
-                      <OriginalImageCard
-                        key={`${code}-${index}`}
-                        image={image}
-                        onView={handleViewImage}
-                      />
-                    ))}
-                  </div>
+              {displayedImages.length === 0 ? (
+                <p className="text-xl text-gray-500 dark:text-gray-400 text-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl w-full max-w-xl mx-auto bg-gray-100 dark:bg-gray-800">
+                  Carga imágenes para empezar a ver las previsualizaciones.
+                </p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
+                  {displayedImages.map((image, index) => (
+                    <OriginalImageCard
+                      key={`${image.filename}-${index}`}
+                      image={image}
+                      onView={handleViewImage}
+                    />
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
-          )}
-          {selectedImages.length === 0 && (
-            <p className="text-xl text-gray-500 text-center p-10 border-2 border-dashed border-gray-300 rounded-xl w-full max-w-xl bg-gray-100">
-              Carga imágenes para empezar a ver las previsualizaciones.
-            </p>
-          )}
-        </CardContent>
-      </Card>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      )}
 
       {imageToPreview && (
         <ImagePreviewDialog
-          isOpen={isDialogOpen}
-          onClose={() => setIsDialogOpen(false)}
+          isOpen={isImagePreviewDialogOpen}
+          onClose={() => setIsImagePreviewDialogOpen(false)}
           originalImage={imageToPreview}
           watermarkImages={watermarkImages}
         />

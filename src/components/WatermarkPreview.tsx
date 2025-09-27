@@ -61,19 +61,19 @@ const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
   const watermarkLabel = watermarkImageSrc.includes("ips") ? "IPS" : "RTG";
 
   return (
-    <Card className="flex flex-col items-center space-y-4 p-4 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white border border-gray-200 rounded-lg w-full max-w-[300px]">
+    <Card className="flex flex-col items-center space-y-4 p-4 shadow-sm hover:shadow-md transition-shadow duration-300 bg-card border border-border rounded-lg w-full max-w-[300px]">
       {image ? (
         <>
-          <p className="text-xl font-semibold text-gray-800">Marca de Agua {watermarkLabel}</p>
-          <div className="border border-gray-200 rounded-md overflow-hidden w-full aspect-square flex items-center justify-center bg-gray-100">
+          <p className="text-xl font-semibold text-foreground">Marca de Agua {watermarkLabel}</p>
+          <div className="border border-border rounded-md overflow-hidden w-full aspect-square flex items-center justify-center bg-white dark:bg-gray-950">
             <canvas ref={canvasRef} className="max-w-full max-h-full object-contain p-1" />
           </div>
-          <Button onClick={handleDownload} className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white hover:bg-blue-700">
+          <Button onClick={handleDownload} className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
             <Download className="h-4 w-4" /> Descargar
           </Button>
         </>
       ) : (
-        <p className="text-gray-500 text-center">Carga una imagen para previsualizarla.</p>
+        <p className="text-muted-foreground text-center">Carga una imagen para previsualizarla.</p>
       )}
     </Card>
   );

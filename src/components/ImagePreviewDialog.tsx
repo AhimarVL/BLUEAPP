@@ -28,20 +28,20 @@ const ImagePreviewDialog: React.FC<ImagePreviewDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl p-8 bg-white border border-gray-200 rounded-xl shadow-lg">
+      <DialogContent className="max-w-5xl p-8 bg-card border border-border rounded-xl shadow-lg">
         <DialogHeader className="pb-4">
-          <DialogTitle className="text-2xl font-bold text-center text-gray-800">
+          <DialogTitle className="text-2xl font-bold text-center text-foreground">
             Previsualización de Imagen: {originalImage.filename}
           </DialogTitle>
-          <DialogDescription className="text-center text-gray-600 mt-2">
+          <DialogDescription className="text-center text-muted-foreground mt-2">
             Aquí puedes ver la imagen original y sus versiones con marca de agua.
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           {/* Original Image */}
-          <div className="flex flex-col items-center space-y-4 p-4 border border-gray-200 rounded-lg bg-gray-50 shadow-sm">
-            <p className="text-xl font-semibold text-gray-800">Original</p>
-            <div className="border border-gray-200 rounded-md overflow-hidden w-full aspect-square flex items-center justify-center bg-gray-100">
+          <div className="flex flex-col items-center space-y-4 p-4 border border-border rounded-lg bg-white dark:bg-gray-950 shadow-sm">
+            <p className="text-xl font-semibold text-foreground">Original</p>
+            <div className="border border-border rounded-md overflow-hidden w-full aspect-square flex items-center justify-center bg-white dark:bg-gray-950">
               <img
                 src={originalImage.dataUrl}
                 alt={originalImage.filename}
@@ -60,7 +60,7 @@ const ImagePreviewDialog: React.FC<ImagePreviewDialogProps> = ({
           ))}
         </div>
         <div className="flex justify-end mt-8">
-          <Button onClick={onClose} className="px-6 py-3 text-base bg-blue-600 text-white hover:bg-blue-700">Cerrar</Button>
+          <Button onClick={onClose} className="px-6 py-3 text-base bg-primary text-primary-foreground hover:bg-primary/90">Cerrar</Button>
         </div>
       </DialogContent>
     </Dialog>
