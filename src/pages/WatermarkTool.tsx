@@ -51,6 +51,11 @@ const WatermarkTool: React.FC = () => {
     setIsDialogOpen(true);
   };
 
+  // Modificación aquí: Añadir nuevas imágenes a las existentes
+  const handleImagesSelected = (newImages: ImageFile[]) => {
+    setSelectedImages((prevImages) => [...prevImages, ...newImages]);
+  };
+
   const handleDownloadAll = async () => {
     setIsDownloading(true);
     const zip = new JSZip();
@@ -104,7 +109,7 @@ const WatermarkTool: React.FC = () => {
           </p>
         </CardHeader>
         <CardContent className="flex flex-col items-center space-y-8 p-8">
-          <ImageUploader onImagesSelected={setSelectedImages} />
+          <ImageUploader onImagesSelected={handleImagesSelected} /> {/* Usar la nueva función */}
 
           {Object.keys(groupedImages).length > 0 && (
             <div className="w-full space-y-10">
