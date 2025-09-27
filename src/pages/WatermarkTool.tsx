@@ -7,10 +7,10 @@ import ImagePreviewDialog from "@/components/ImagePreviewDialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, RotateCcw } from "lucide-react"; // Import RotateCcw icon
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import { applyWatermarkToImage } from "@/utils/watermarkUtils"; // Import the new utility
+import { applyWatermarkToImage } from "@/utils/watermarkUtils";
 
 // Import watermark images
 import ipsWatermark from "@/assets/ips.png";
@@ -51,9 +51,15 @@ const WatermarkTool: React.FC = () => {
     setIsDialogOpen(true);
   };
 
-  // Modificación aquí: Añadir nuevas imágenes a las existentes
   const handleImagesSelected = (newImages: ImageFile[]) => {
     setSelectedImages((prevImages) => [...prevImages, ...newImages]);
+  };
+
+  const handleReset = () => {
+    setSelectedImages([]);
+    setImageToPreview(null);
+    setIsDialogOpen(false);
+    setIsDownloading(false);
   };
 
   const handleDownloadAll = async () => {
@@ -109,7 +115,7 @@ const WatermarkTool: React.FC = () => {
           </p>
         </CardHeader>
         <CardContent className="flex flex-col items-center space-y-8 p-8">
-          <ImageUploader onImagesSelected={handleImagesSelected} /> {/* Usar la nueva función */}
+          <ImageUploader onImagesSelected={handleImagesSelected} />
 
           {Object.keys(groupedImages).length > 0 && (
             <div className="w-full space-y-10">
@@ -132,7 +138,7 @@ const WatermarkTool: React.FC = () => {
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center mt-8">
+              <div className="flex justify-center mt-8 space-x-4"> {/* Added space-x-4 for spacing */}
                 <Button
                   onClick={handleDownloadAll}
                   disabled={isDownloading}
@@ -140,6 +146,14 @@ const WatermarkTool: React.FC = () => {
                 >
                   {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
                   <Download className="h-5 w-5" />
+                </Button>
+                <Button
+                  onClick={handleReset}
+                  variant="outline" // Using outline variant for a secondary action
+                  className="px-8 py-4 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border-gray-300 text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                >
+                  Reiniciar
+                  <RotateCcw className="h-5 w-5" />
                 </Button>
               </div>
             </div>
