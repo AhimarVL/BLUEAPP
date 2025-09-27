@@ -24,7 +24,7 @@ const OriginalImageCard: React.FC<OriginalImageCardProps> = ({ image, onView }) 
         />
       </div>
       <Button onClick={() => onView(image)} className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-        <Eye className="h-4 w-4" /> Ver Previsualización
+        <Eye className="h-4 w-4" /> Previsualizar
       </Button>
     </Card>
   );
