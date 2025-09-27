@@ -5,7 +5,7 @@ import UploadDialog from "@/components/UploadDialog";
 import Sidebar from "@/components/Sidebar";
 import OriginalImageCard from "@/components/OriginalImageCard";
 import ImagePreviewDialog from "@/components/ImagePreviewDialog";
-import CanvasEditorDialog from "@/components/CanvasEditorDialog"; // Import the new editor dialog
+import CanvasEditorView from "@/components/CanvasEditorView"; // Import the new editor view
 import { Card, CardContent } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import JSZip from "jszip";
@@ -34,7 +34,7 @@ const WatermarkTool: React.FC = () => {
   const [imageToPreview, setImageToPreview] = useState<ImageFile | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-  const [isCanvasEditorDialogOpen, setIsCanvasEditorDialogOpen] = useState(false); // Updated state name
+  const [currentRightPanel, setCurrentRightPanel] = useState<'previews' | 'canvasEditor'>('previews'); // New state for right panel view
 
   const watermarkImages = [ipsWatermark, rtgWatermark];
 
@@ -71,6 +71,7 @@ const WatermarkTool: React.FC = () => {
   const handleConfirmUpload = () => {
     if (selectedImages.length > 0) {
       setIsUploadDialogOpen(false);
+      setCurrentRightPanel('previews'); // Ensure we show previews after upload
     } else {
       toast.error("Por favor, carga al menos una imagen para continuar.");
     }
@@ -83,7 +84,7 @@ const WatermarkTool: React.FC = () => {
     setIsImagePreviewDialogOpen(false);
     setIsDownloading(false);
     setSelectedGroup(null);
-    setIsCanvasEditorDialogOpen(false); // Reset canvas editor dialog state
+    setCurrentRightPanel('previews'); // Reset to previews view
     toast.success("Aplicación reiniciada. ¡Carga nuevas imágenes!");
   };
 
@@ -137,14 +138,6 @@ const WatermarkTool: React.FC = () => {
     }
   };
 
-  const handleOpenCanvasEditor = () => {
-    if (selectedImages.length === 0) {
-      toast.info("Por favor, carga imágenes para usar el editor de lienzos.");
-      return;
-    }
-    setIsCanvasEditorDialogOpen(true);
-  };
-
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
       {isUploadDialogOpen ? (
@@ -153,6 +146,7 @@ const WatermarkTool: React.FC = () => {
           onClose={() => {
             if (selectedImages.length > 0) {
               setIsUploadDialogOpen(false);
+              setCurrentRightPanel('previews'); // Go to previews if images are loaded
             } else {
               toast.info("Por favor, carga imágenes o cancela para salir.");
             }
@@ -173,31 +167,36 @@ const WatermarkTool: React.FC = () => {
               isDownloading={isDownloading}
               onSelectGroup={setSelectedGroup}
               selectedGroup={selectedGroup}
-              onPreviewCanvas={handleOpenCanvasEditor} // Pass the new handler
+              onSelectRightPanel={setCurrentRightPanel} // Pass setter for right panel
+              currentRightPanel={currentRightPanel} // Pass current panel state
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={80}>
-            <div className="h-full overflow-y-auto p-8 bg-white dark:bg-gray-950">
-              <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
-                Previsualización de Imágenes
-              </h2>
-              {displayedImages.length === 0 ? (
-                <p className="text-xl text-gray-500 dark:text-gray-400 text-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl w-full max-w-xl mx-auto bg-gray-100 dark:bg-gray-800">
-                  Carga imágenes para empezar a ver las previsualizaciones.
-                </p>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
-                  {displayedImages.map((image, index) => (
-                    <OriginalImageCard
-                      key={`${image.filename}-${index}`}
-                      image={image}
-                      onView={handleViewImage}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+            {currentRightPanel === 'previews' ? (
+              <div className="h-full overflow-y-auto p-8 bg-white dark:bg-gray-950">
+                <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
+                  Previsualización de Imágenes
+                </h2>
+                {displayedImages.length === 0 ? (
+                  <p className="text-xl text-gray-500 dark:text-gray-400 text-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl w-full max-w-xl mx-auto bg-gray-100 dark:bg-gray-800">
+                    Carga imágenes para empezar a ver las previsualizaciones.
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
+                    {displayedImages.map((image, index) => (
+                      <OriginalImageCard
+                        key={`${image.filename}-${index}`}
+                        image={image}
+                        onView={handleViewImage}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <CanvasEditorView images={selectedImages} />
+            )}
           </ResizablePanel>
         </ResizablePanelGroup>
       )}
@@ -210,12 +209,6 @@ const WatermarkTool: React.FC = () => {
           watermarkImages={watermarkImages}
         />
       )}
-
-      <CanvasEditorDialog
-        isOpen={isCanvasEditorDialogOpen}
-        onClose={() => setIsCanvasEditorDialogOpen(false)}
-        images={selectedImages}
-      />
     </div>
   );
 };

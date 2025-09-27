@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Plus, Download, RotateCcw, Image as ImageIcon, LayoutDashboard } from "lucide-react"; // Import LayoutDashboard icon
+import { Plus, Download, RotateCcw, Image as ImageIcon, LayoutDashboard } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,8 @@ interface SidebarProps {
   isDownloading: boolean;
   onSelectGroup: (code: string | null) => void;
   selectedGroup: string | null;
-  onPreviewCanvas: () => void; // New prop for canvas preview
+  onSelectRightPanel: (panel: 'previews' | 'canvasEditor') => void; // New prop for panel selection
+  currentRightPanel: 'previews' | 'canvasEditor'; // New prop to indicate active panel
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -35,8 +36,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   isDownloading,
   onSelectGroup,
   selectedGroup,
-  onPreviewCanvas, // Destructure new prop
+  onSelectRightPanel, // Destructure new prop
+  currentRightPanel, // Destructure new prop
 }) => {
+  const hasImages = Object.keys(groupedImages).length > 0;
+
   return (
     <div className="flex flex-col h-full bg-card border-r border-border p-4">
       <div className="flex flex-col gap-3 mb-6">
@@ -48,7 +52,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </Button>
         <Button
           onClick={onDownloadAll}
-          disabled={isDownloading || Object.keys(groupedImages).length === 0}
+          disabled={isDownloading || !hasImages}
           className="w-full flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
         >
           {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
@@ -58,21 +62,36 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <Separator className="my-4" />
 
-      {/* Nuevo apartado para previsualizar lienzos */}
-      <div className="mb-6">
+      {/* Apartado para cambiar entre vistas del panel derecho */}
+      <div className="mb-6 flex flex-col gap-3">
         <Button
-          onClick={onPreviewCanvas}
-          disabled={Object.keys(groupedImages).length === 0}
-          className="w-full flex items-center justify-center gap-2 bg-accent text-accent-foreground hover:bg-accent/80"
+          onClick={() => onSelectRightPanel('previews')}
+          variant={currentRightPanel === 'previews' ? "secondary" : "ghost"}
+          className={cn(
+            "w-full flex items-center justify-center gap-2",
+            currentRightPanel === 'previews' && "bg-muted text-foreground"
+          )}
+          disabled={!hasImages}
         >
-          <LayoutDashboard className="h-4 w-4" /> Previsualizar Lienzos
+          <ImageIcon className="h-4 w-4" /> Previsualizar Imágenes
+        </Button>
+        <Button
+          onClick={() => onSelectRightPanel('canvasEditor')}
+          variant={currentRightPanel === 'canvasEditor' ? "secondary" : "ghost"}
+          className={cn(
+            "w-full flex items-center justify-center gap-2",
+            currentRightPanel === 'canvasEditor' && "bg-muted text-foreground"
+          )}
+          disabled={!hasImages}
+        >
+          <LayoutDashboard className="h-4 w-4" /> Editor de Lienzos
         </Button>
       </div>
 
       <Separator className="my-4" />
 
       <h3 className="text-lg font-semibold text-foreground mb-3">Imágenes Cargadas</h3>
-      {Object.keys(groupedImages).length === 0 ? (
+      {!hasImages ? (
         <p className="text-sm text-muted-foreground text-center py-4">
           No hay imágenes cargadas.
         </p>
