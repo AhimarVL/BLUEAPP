@@ -10,6 +10,7 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/componen
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { applyWatermarkToImage } from "@/utils/watermarkUtils";
+import { generateProductCanvasImage } from "@/utils/imageProcessingUtils"; // Import the new utility
 import { toast } from "sonner";
 
 // Import watermark images
@@ -93,6 +94,7 @@ const WatermarkTool: React.FC = () => {
         if (productFolder) {
           const ipsFolder = productFolder.folder("SELLO DE AGUA IPS");
           const rtgFolder = productFolder.folder("SELLO DE AGUA RTG");
+          const canvasFolder = productFolder.folder("IMAGENES PARA LIENZO"); // New folder for canvas images
 
           for (const image of groupedImages[code]) {
             const originalFilename = image.filename.split(".").slice(0, -1).join(".");
@@ -110,13 +112,20 @@ const WatermarkTool: React.FC = () => {
               const rtgBlob = await (await fetch(rtgWatermarkedDataUrl)).blob();
               rtgFolder?.file(`${originalFilename}-RTG.png`, rtgBlob);
             }
+
+            // Generate product canvas image
+            const productCanvasDataUrl = await generateProductCanvasImage(image.dataUrl);
+            if (productCanvasDataUrl) {
+              const canvasBlob = await (await fetch(productCanvasDataUrl)).blob();
+              canvasFolder?.file(`${originalFilename}-Lienzo.png`, canvasBlob);
+            }
           }
         }
       }
 
       const content = await zip.generateAsync({ type: "blob" });
-      saveAs(content, "imagenes_con_marca_de_agua.zip");
-      toast.success("¡Todas las imágenes con marca de agua han sido descargadas!");
+      saveAs(content, "imagenes_procesadas.zip");
+      toast.success("¡Todas las imágenes han sido procesadas y descargadas!");
     } catch (error) {
       console.error("Error al generar el ZIP:", error);
       toast.error("Error al descargar las imágenes. Inténtalo de nuevo.");
