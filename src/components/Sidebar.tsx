@@ -2,94 +2,91 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Plus, Download, RotateCcw, Image as ImageIcon } from "lucide-react";
+import { RotateCcw, Download, UploadCloud, Settings, Image as ImageIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-
-interface ImageFile {
-  dataUrl: string;
-  filename: string;
-}
-
-interface GroupedImages {
-  [code: string]: ImageFile[];
-}
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface SidebarProps {
   onReset: () => void;
-  onAddImages: () => void;
-  onDownloadAll: () => void;
-  groupedImages: GroupedImages;
-  isDownloading: boolean;
-  onSelectGroup: (code: string | null) => void;
-  selectedGroup: string | null;
+  onDownload: () => void;
+  onUpload: () => void;
+  onSettings: () => void;
+  onViewOriginals: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   onReset,
-  onAddImages,
-  onDownloadAll,
-  groupedImages,
-  isDownloading,
-  onSelectGroup,
-  selectedGroup,
+  onDownload,
+  onUpload,
+  onSettings,
+  onViewOriginals,
 }) => {
   return (
-    <div className="flex flex-col h-full bg-card border-r border-border p-4">
+    <div className="flex flex-col h-full bg-sidebar-background border-r border-sidebar-border p-4 text-sidebar-foreground">
       <div className="flex flex-col gap-3 mb-6">
-        <Button onClick={onReset} variant="outline" className="w-full flex items-center justify-center gap-2 text-foreground hover:bg-muted">
-          <RotateCcw className="h-4 w-4" /> Reiniciar
-        </Button>
-        <Button onClick={onAddImages} className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-          <Plus className="h-4 w-4" /> Añadir Imágenes
-        </Button>
-        <Button
-          onClick={onDownloadAll}
-          disabled={isDownloading || Object.keys(groupedImages).length === 0}
-          className="w-full flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
-        >
-          {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
-          <Download className="h-4 w-4" />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={onReset} variant="outline" className="w-full flex items-center justify-center gap-2 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground">
+                <RotateCcw className="h-4 w-4" /> Reiniciar
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Reiniciar todas las imágenes y configuraciones</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={onDownload} className="w-full flex items-center justify-center gap-2 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90">
+                <Download className="h-4 w-4" /> Descargar
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Descargar imágenes procesadas</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={onUpload} variant="secondary" className="w-full flex items-center justify-center gap-2 bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/80">
+                <UploadCloud className="h-4 w-4" /> Cargar Nuevas
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Cargar nuevas imágenes para procesar</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
 
-      <Separator className="my-4" />
+      <Separator className="my-4 bg-sidebar-border" />
 
-      <h3 className="text-lg font-semibold text-foreground mb-3">Imágenes Cargadas</h3>
-      {Object.keys(groupedImages).length === 0 ? (
-        <p className="text-sm text-muted-foreground text-center py-4">
-          No hay imágenes cargadas.
-        </p>
-      ) : (
-        <ScrollArea className="flex-1 pr-2">
-          <div className="flex flex-col gap-2">
-            <Button
-              variant={selectedGroup === null ? "secondary" : "ghost"}
-              onClick={() => onSelectGroup(null)}
-              className={cn(
-                "w-full justify-start",
-                selectedGroup === null && "bg-muted text-foreground"
-              )}
-            >
-              <ImageIcon className="h-4 w-4 mr-2" /> Todas las Imágenes
-            </Button>
-            {Object.entries(groupedImages).map(([code, images]) => (
-              <Button
-                key={code}
-                variant={selectedGroup === code ? "secondary" : "ghost"}
-                onClick={() => onSelectGroup(code)}
-                className={cn(
-                  "w-full justify-start",
-                  selectedGroup === code && "bg-muted text-foreground"
-                )}
-              >
-                <ImageIcon className="h-4 w-4 mr-2" /> {code} ({images.length})
+      <div className="flex flex-col gap-3 mt-auto"> {/* mt-auto para empujar al final */}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={onViewOriginals} variant="ghost" className="w-full flex items-center justify-start gap-2 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground">
+                <ImageIcon className="h-4 w-4" /> Originales
               </Button>
-            ))}
-          </div>
-        </ScrollArea>
-      )}
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>Ver imágenes originales</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button onClick={onSettings} variant="ghost" className="w-full flex items-center justify-start gap-2 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground">
+                <Settings className="h-4 w-4" /> Ajustes
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>Configurar ajustes de la aplicación</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
     </div>
   );
 };
