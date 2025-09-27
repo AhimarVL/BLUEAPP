@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ImageUploader from "@/components/ImageUploader";
-import UploadedImagePreviews from "@/components/UploadedImagePreviews"; // Importar el nuevo componente
+import UploadedImagePreviews from "@/components/UploadedImagePreviews";
 
-interface ImageFile { // Definir la interfaz ImageFile aquí para consistencia
+interface ImageFile {
   dataUrl: string;
   filename: string;
 }
@@ -23,7 +23,7 @@ interface UploadDialogProps {
   onImagesSelected: (images: ImageFile[]) => void;
   onConfirm: () => void;
   hasImages: boolean;
-  selectedImages: ImageFile[]; // Nueva prop para pasar las imágenes seleccionadas
+  selectedImages: ImageFile[];
 }
 
 const UploadDialog: React.FC<UploadDialogProps> = ({
@@ -32,12 +32,12 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   onImagesSelected,
   onConfirm,
   hasImages,
-  selectedImages, // Desestructurar la nueva prop
+  selectedImages,
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl p-8 bg-card border border-border rounded-xl shadow-lg"> {/* Aumentado el max-w */}
-        <DialogHeader className="pb-4 text-center">
+      <DialogContent className="max-w-3xl p-8 bg-card border border-border rounded-xl shadow-lg flex flex-col max-h-[90vh]"> {/* Añadido flex-col y max-h */}
+        <DialogHeader className="pb-4 text-center flex-shrink-0"> {/* flex-shrink-0 para que no se encoja */}
           <DialogTitle className="text-3xl font-bold text-foreground">
             Cargar Archivos
           </DialogTitle>
@@ -45,12 +45,14 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
             Añade tus imágenes aquí. Puedes subir varias a la vez.
           </DialogDescription>
         </DialogHeader>
-        <div className="mt-6">
+        <div className="mt-6 flex-shrink-0"> {/* flex-shrink-0 para que no se encoja */}
           <ImageUploader onImagesSelected={onImagesSelected} />
         </div>
-        {/* Renderizar el nuevo componente de previsualización */}
-        <UploadedImagePreviews images={selectedImages} />
-        <div className="flex justify-end mt-8 gap-4">
+        {/* Renderizar el nuevo componente de previsualización, ocupando el espacio restante */}
+        <div className="flex-grow overflow-y-auto mt-6"> {/* flex-grow y overflow-y-auto para el scroll */}
+          <UploadedImagePreviews images={selectedImages} />
+        </div>
+        <div className="flex justify-end mt-8 gap-4 flex-shrink-0"> {/* flex-shrink-0 para que no se encoja */}
           <Button onClick={onClose} variant="outline" className="px-6 py-3 text-base">
             Cancelar
           </Button>
