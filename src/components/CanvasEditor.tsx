@@ -20,7 +20,8 @@ interface CanvasEditorProps {
 
 const CANVAS_WIDTH = 500;
 const CANVAS_HEIGHT = 300;
-const MARGIN_PERCENTAGE = 0.10;
+const MARGIN_PERCENTAGE_X = 0.08; // 8% for left/right
+const MARGIN_PERCENTAGE_Y = 0.13; // 13% for top/bottom
 
 const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -57,9 +58,9 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
       ctx.fillStyle = "#FFFFFF"; // White background
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Calculate safe area
-      const marginX = CANVAS_WIDTH * MARGIN_PERCENTAGE;
-      const marginY = CANVAS_HEIGHT * MARGIN_PERCENTAGE;
+      // Calculate safe area with new margins
+      const marginX = CANVAS_WIDTH * MARGIN_PERCENTAGE_X;
+      const marginY = CANVAS_HEIGHT * MARGIN_PERCENTAGE_Y;
       const safeAreaWidth = CANVAS_WIDTH - 2 * marginX;
       const safeAreaHeight = CANVAS_HEIGHT - 2 * marginY;
 
@@ -70,9 +71,11 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
       const safeAreaAspectRatio = safeAreaWidth / safeAreaHeight;
 
       if (imgAspectRatio > safeAreaAspectRatio) {
+        // Image is wider than safe area, fit by width
         initialDrawWidth = safeAreaWidth;
         initialDrawHeight = safeAreaWidth / imgAspectRatio;
       } else {
+        // Image is taller than safe area, fit by height
         initialDrawHeight = safeAreaHeight;
         initialDrawWidth = safeAreaHeight * imgAspectRatio;
       }

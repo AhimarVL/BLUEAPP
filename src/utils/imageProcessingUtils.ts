@@ -106,7 +106,7 @@ export const trimImageToContent = (imageDataUrl: string): Promise<string | null>
 };
 
 /**
- * Generates a product image on a 500x300 canvas with a 10% margin,
+ * Generates a product image on a 500x300 canvas with specified margins,
  * intelligently fitting the original image content within the safe area.
  * @param originalImageDataUrl The data URL of the original image.
  * @returns A Promise that resolves with the data URL of the generated image, or null if an error occurs.
@@ -117,10 +117,11 @@ export const generateProductCanvasImage = async (
   return new Promise(async (resolve) => {
     const canvasWidth = 500;
     const canvasHeight = 300;
-    const marginPercentage = 0.10; // 10% margin
+    const marginPercentageX = 0.08; // 8% for left/right
+    const marginPercentageY = 0.13; // 13% for top/bottom
 
-    const marginX = canvasWidth * marginPercentage;
-    const marginY = canvasHeight * marginPercentage;
+    const marginX = canvasWidth * marginPercentageX;
+    const marginY = canvasHeight * marginPercentageY;
 
     const safeAreaWidth = canvasWidth - 2 * marginX;
     const safeAreaHeight = canvasHeight - 2 * marginY;
