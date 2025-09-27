@@ -2,10 +2,11 @@
 
 import React, { useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card"; // Import Card components
 
 interface WatermarkPreviewProps {
   image: { dataUrl: string; filename: string } | null;
-  watermarkImageSrc: string; // Changed from watermarkTexts to watermarkImageSrc
+  watermarkImageSrc: string;
 }
 
 const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
@@ -57,21 +58,23 @@ const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center space-y-2 p-4 border rounded-md bg-white dark:bg-gray-800">
+    <Card className="flex flex-col items-center space-y-3 p-4 shadow-sm hover:shadow-md transition-shadow duration-200 bg-white dark:bg-gray-800 w-full max-w-[300px]">
       {image ? (
         <>
-          <p className="text-sm text-muted-foreground">{image.filename}</p>
-          <div className="border rounded-md overflow-hidden max-w-full h-auto">
-            <canvas ref={canvasRef} className="max-w-full h-auto" style={{ maxWidth: "300px", maxHeight: "300px" }} />
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 text-center break-all">
+            {image.filename}
+          </p>
+          <div className="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden w-full aspect-square flex items-center justify-center">
+            <canvas ref={canvasRef} className="max-w-full max-h-full object-contain" />
           </div>
-          <Button onClick={handleDownload}>
+          <Button onClick={handleDownload} className="w-full">
             Descargar
           </Button>
         </>
       ) : (
-        <p className="text-muted-foreground">Carga una imagen para previsualizarla.</p>
+        <p className="text-muted-foreground text-center">Carga una imagen para previsualizarla.</p>
       )}
-    </div>
+    </Card>
   );
 };
 
