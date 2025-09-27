@@ -2,59 +2,60 @@
 
 import React, { useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 interface WatermarkPreviewProps {
-  imageSrc: string | null;
-  watermarkText: string;
-  onWatermarkTextChange: (text: string) => void;
+  image: { dataUrl: string; filename: string } | null;
+  watermarkTexts: string[];
 }
 
 const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
-  imageSrc,
-  watermarkText,
-  onWatermarkTextChange,
+  image,
+  watermarkTexts,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !imageSrc) return;
+    if (!canvas || !image?.dataUrl) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const img = new Image();
-    img.src = imageSrc;
+    img.src = image.dataUrl;
     img.onload = () => {
-      // Set canvas dimensions to match image
       canvas.width = img.width;
       canvas.height = img.height;
 
-      // Draw image
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0);
 
-      // Apply watermark
-      if (watermarkText) {
-        ctx.font = "bold 72px Arial"; // Adjust font size as needed
-        ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // White, semi-transparent
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
-        // Calculate text width to center it
-        const textWidth = ctx.measureText(watermarkText).width;
-        const x = canvas.width / 2;
-        const y = canvas.height / 2;
-
-        // Draw text with a slight shadow for better visibility
+      if (watermarkTexts && watermarkTexts.length > 0) {
+        ctx.font = "bold 72px Arial";
+        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
         ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
         ctx.shadowOffsetX = 3;
         ctx.shadowOffsetY = 3;
         ctx.shadowBlur = 5;
-        ctx.fillText(watermarkText, x, y);
-        
+
+        const padding = 50;
+
+        // Watermark 1: IPS (Top-Left)
+        const text1 = watermarkTexts[0];
+        if (text1) {
+          ctx.textAlign = "left";
+          ctx.textBaseline = "top";
+          ctx.fillText(text1, padding, padding);
+        }
+
+        // Watermark 2: RTG (Bottom-Right)
+        const text2 = watermarkTexts[1];
+        if (text2) {
+          ctx.textAlign = "right";
+          ctx.textBaseline = "bottom";
+          ctx.fillText(text2, canvas.width - padding, canvas.height - padding);
+        }
+
         // Reset shadow
         ctx.shadowColor = "transparent";
         ctx.shadowOffsetX = 0;
@@ -62,37 +63,29 @@ const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
         ctx.shadowBlur = 0;
       }
     };
-  }, [imageSrc, watermarkText]);
+  }, [image, watermarkTexts]);
 
   const handleDownload = () => {
     const canvas = canvasRef.current;
-    if (canvas) {
+    if (canvas && image) {
       const link = document.createElement("a");
-      link.download = "watermarked-image.png";
+      const originalFilename = image.filename.split(".").slice(0, -1).join(".");
+      link.download = `${originalFilename}-watermarked.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
     }
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="watermark-text">Texto de Marca de Agua</Label>
-        <Input
-          id="watermark-text"
-          type="text"
-          value={watermarkText}
-          onChange={(e) => onWatermarkTextChange(e.target.value)}
-          placeholder="Escribe tu marca de agua aquí"
-        />
-      </div>
-      {imageSrc ? (
+    <div className="flex flex-col items-center space-y-2 p-4 border rounded-md bg-white dark:bg-gray-800">
+      {image ? (
         <>
+          <p className="text-sm text-muted-foreground">{image.filename}</p>
           <div className="border rounded-md overflow-hidden max-w-full h-auto">
-            <canvas ref={canvasRef} className="max-w-full h-auto" />
+            <canvas ref={canvasRef} className="max-w-full h-auto" style={{ maxWidth: "300px", maxHeight: "300px" }} />
           </div>
-          <Button onClick={handleDownload} disabled={!imageSrc}>
-            Descargar Imagen con Marca de Agua
+          <Button onClick={handleDownload}>
+            Descargar
           </Button>
         </>
       ) : (
