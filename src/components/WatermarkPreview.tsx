@@ -35,14 +35,9 @@ const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
         const watermarkImg = new Image();
         watermarkImg.src = watermarkImageSrc;
         watermarkImg.onload = () => {
-          // Calculate position to center the watermark
-          const wmWidth = watermarkImg.width;
-          const wmHeight = watermarkImg.height;
-          const x = (canvas.width - wmWidth) / 2;
-          const y = (canvas.height - wmHeight) / 2;
-
+          // Draw watermark to cover the entire canvas
           ctx.globalAlpha = 0.5; // Set transparency for the watermark
-          ctx.drawImage(watermarkImg, x, y, wmWidth, wmHeight);
+          ctx.drawImage(watermarkImg, 0, 0, canvas.width, canvas.height); // Draw from (0,0) to cover full width/height
           ctx.globalAlpha = 1.0; // Reset transparency
         };
       }
