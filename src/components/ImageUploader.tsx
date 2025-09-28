@@ -60,7 +60,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
   return (
     <Card
       className={cn(
-        "w-full max-w-2xl p-6 text-center transition-all duration-300 ease-in-out cursor-pointer", // Revertido a max-w-2xl
+        "w-full max-w-lg p-6 text-center transition-all duration-300 ease-in-out cursor-pointer", // Cambiado a max-w-lg
         "border-2 rounded-3xl",
         isDragging
           ? "border-primary bg-primary/5"
