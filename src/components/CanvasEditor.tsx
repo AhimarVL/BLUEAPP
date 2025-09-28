@@ -89,12 +89,18 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
 
       ctx.drawImage(img, drawX, drawY, scaledWidth, scaledHeight);
 
-      // Draw margin lines
+      // Draw blue border around the actual image content
+      ctx.strokeStyle = "blue"; // Blue color for the image border
+      ctx.lineWidth = 1; // Thinner line for the image border
+      ctx.setLineDash([]); // Ensure it's a solid line
+      ctx.strokeRect(drawX, drawY, scaledWidth, scaledHeight);
+
+      // Draw margin lines (red dashed)
       ctx.strokeStyle = "rgba(255, 0, 0, 0.7)"; // Red, semi-transparent
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 5]); // Dashed line
       ctx.strokeRect(marginX, marginY, safeAreaWidth, safeAreaHeight);
-      ctx.setLineDash([]); // Reset line dash
+      ctx.setLineDash([]); // Reset line dash for other drawings
     };
   }, [trimmedImageDataUrl, scale, offsetX, offsetY]); // Depend on trimmedImageDataUrl
 
