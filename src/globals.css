@@ -93,4 +93,46 @@
     @apply bg-background text-foreground;
     font-family: 'Poppins', sans-serif; /* Aplicando la fuente Poppins */
   }
+
+  /* Custom scrollbar styles for dark mode */
+  .dark ::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento vertical */
+    height: 8px; /* Altura de la barra de desplazamiento horizontal */
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: var(--background); /* Fondo oscuro para el track */
+    border-radius: 10px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background-color: var(--primary); /* Color primario para el thumb */
+    border-radius: 10px;
+    border: 2px solid var(--background); /* Borde para que se destaque un poco */
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--primary) / 0.8); /* Ligeramente más oscuro al pasar el ratón */
+  }
+
+  /* Custom scrollbar styles for light mode (subtle) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--muted);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--muted-foreground);
+    border-radius: 10px;
+    border: 2px solid var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.8);
+  }
 }
