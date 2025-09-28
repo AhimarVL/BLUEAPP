@@ -40,14 +40,13 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
           Editor de Imágenes para Lienzo
         </h2>
         <p className="text-muted-foreground mt-2">
-          Selecciona una imagen para ajustarla en el lienzo de 500x300 píxeles.
-          Puedes moverla y hacer zoom para encajar el producto.
+          Selecciona una imagen para ajustarla en el lienzo de 500x300 píxeles. Puedes moverla y hacer zoom para encajar el producto.
         </p>
       </div>
 
-      <div className="flex-grow flex flex-col lg:flex-row gap-6 mt-6 overflow-hidden">
+      <div className="flex-grow flex flex-col items-center justify-center gap-6 mt-6 overflow-hidden"> {/* Cambiado a flex-col y centrado */}
         {/* Main Canvas Editor Area */}
-        <div className="flex-grow flex items-center justify-center min-h-[350px] lg:min-h-full">
+        <div className="flex-shrink-0"> {/* Eliminar flex-grow para que no ocupe todo el espacio vertical */}
           {selectedImage ? (
             <CanvasEditor image={selectedImage} onDownload={handleDownloadCanvas} />
           ) : (
@@ -58,10 +57,10 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         </div>
 
         {/* Image Selection Thumbnails */}
-        <div className="lg:w-1/4 flex-shrink-0">
-          <h4 className="text-lg font-semibold text-foreground mb-3 text-center lg:text-left">Tus Imágenes</h4>
-          <ScrollArea className="h-[200px] lg:h-[calc(95vh-250px)] w-full pr-4">
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+        <div className="w-full flex-shrink-0 mt-8"> {/* Añadido mt-8 para espacio */}
+          <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4> {/* Centrado */}
+          <ScrollArea className="h-[150px] w-full px-4"> {/* Altura fija para la scroll area */}
+            <div className="flex gap-3 justify-center"> {/* Centrar las miniaturas */}
               {images.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center">
                   No hay imágenes cargadas.
@@ -70,7 +69,7 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
                 images.map((img, index) => (
                   <div
                     key={`${img.filename}-${index}`}
-                    className={`relative w-24 h-24 rounded-md overflow-hidden border-2 cursor-pointer transition-all duration-200
+                    className={`relative w-24 h-24 rounded-md overflow-hidden border-2 cursor-pointer transition-all duration-200 flex-shrink-0
                       ${selectedImage?.filename === img.filename ? "border-primary ring-2 ring-primary" : "border-border hover:border-primary/50"}`}
                     onClick={() => setSelectedImage(img)}
                   >
