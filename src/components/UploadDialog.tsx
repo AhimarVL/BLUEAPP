@@ -5,8 +5,6 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ImageUploader from "@/components/ImageUploader";
@@ -38,30 +36,28 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl p-8 bg-[#1f1f1f] rounded-3xl shadow-lg flex flex-col max-h-[90vh]">
+      <DialogContent className="max-w-3xl p-8 bg-[#27292b] rounded-3xl shadow-lg flex flex-col max-h-[90vh]"> {/* Fondo ajustado */}
         <DialogHeader className="pb-4 text-center flex-shrink-0">
-          <DialogTitle className="text-3xl font-bold text-white">
-            Cargar Archivos
-          </DialogTitle>
-          <DialogDescription className="text-gray-300 mt-2">
-            Añade tus imágenes aquí.
-          </DialogDescription>
+          {/* Títulos y descripciones eliminados */}
         </DialogHeader>
-        <div className="mt-6 flex-shrink-0">
-          <ImageUploader onImagesSelected={onImagesSelected} />
-        </div>
         
-        {hasImages && (
-          <div className="flex-grow overflow-y-auto mt-6 border border-gray-700 rounded-xl p-4 bg-[#27292b]">
-            <h3 className="text-xl font-bold text-gray-100 mb-4 text-center">Archivos Cargados</h3>
-            <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
+        <div className="flex flex-col gap-6 flex-grow overflow-hidden"> {/* Nuevo contenedor para alineación */}
+          <div className="mt-6 flex-shrink-0 mx-auto w-full max-w-2xl"> {/* Centrado y ancho máximo */}
+            <ImageUploader onImagesSelected={onImagesSelected} />
           </div>
-        )}
+          
+          {hasImages && (
+            <div className="flex-grow overflow-y-auto border border-gray-700 rounded-xl p-4 bg-[#27292b] mx-auto w-full max-w-2xl"> {/* Centrado y ancho máximo */}
+              <h3 className="text-xl font-bold text-gray-100 mb-4 text-center">Archivos Cargados</h3>
+              <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
+            </div>
+          )}
+        </div>
 
         <div className="flex justify-end mt-8 gap-4 flex-shrink-0">
           <Button 
             onClick={onClose} 
-            className="px-6 py-3 text-base bg-gray-700 text-white hover:bg-gray-600 border border-gray-700 hover:border-gray-600" // Estilos actualizados
+            className="px-6 py-3 text-base bg-gray-700 text-white hover:bg-gray-600 border border-gray-700 hover:border-gray-600"
           >
             Cancelar
           </Button>
