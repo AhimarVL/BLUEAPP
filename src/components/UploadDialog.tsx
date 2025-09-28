@@ -36,7 +36,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl p-8 bg-[#27292b] rounded-[2rem] shadow-lg flex flex-col max-h-[90vh] border-none"> {/* Fondo ajustado, redondeo y borde eliminados */}
+      <DialogContent className="max-w-3xl p-8 bg-[#27292b] rounded-[3rem] shadow-lg flex flex-col max-h-[90vh] border-none"> {/* Redondeo aumentado a 3rem */}
         <DialogHeader className="pb-4 text-center flex-shrink-0">
           {/* Títulos y descripciones eliminados */}
         </DialogHeader>
