@@ -20,7 +20,7 @@ const UploadedImagePreviews: React.FC<UploadedImagePreviewsProps> = ({
   onRemoveImage,
 }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"> {/* Cambiado a 2 columnas en sm y 3 en md+ */}
       {images.map((image, index) => (
         <Card 
           key={`${image.filename}-${index}`} 
@@ -33,12 +33,14 @@ const UploadedImagePreviews: React.FC<UploadedImagePreviewsProps> = ({
               className="object-cover w-full h-full"
             />
           </div>
-          {/* Se ha eliminado el nombre del archivo de aquí */}
+          <div className="ml-3 flex-grow text-sm text-gray-200 truncate">
+            {image.filename}
+          </div>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => onRemoveImage(image.filename)}
-            className="ml-auto h-8 w-8 text-gray-400 hover:bg-gray-700 hover:text-gray-100 flex-shrink-0" // Usar ml-auto para empujar la X a la derecha
+            className="ml-2 h-8 w-8 text-gray-400 hover:bg-gray-700 hover:text-gray-100 flex-shrink-0"
           >
             <X className="h-4 w-4" />
             <span className="sr-only">Eliminar</span>
