@@ -34,7 +34,7 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
   };
 
   return (
-    <div className="flex flex-col h-full p-8 bg-white dark:bg-gray-950">
+    <div className="flex flex-col h-full p-8 bg-gray-50 dark:bg-gray-900"> {/* Fondo sutil */}
       <div className="pb-4 text-center flex-shrink-0">
         <h2 className="text-3xl font-bold text-foreground">
           Editor de Imágenes para Lienzo
@@ -44,9 +44,9 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         </p>
       </div>
 
-      <div className="flex-grow flex flex-col items-center justify-center gap-6 mt-6 overflow-hidden"> {/* Cambiado a flex-col y centrado */}
+      <div className="flex-grow flex flex-col items-center justify-center gap-10 mt-6 overflow-hidden"> {/* Aumentado el gap */}
         {/* Main Canvas Editor Area */}
-        <div className="flex-shrink-0"> {/* Eliminar flex-grow para que no ocupe todo el espacio vertical */}
+        <div className="flex-shrink-0">
           {selectedImage ? (
             <CanvasEditor image={selectedImage} onDownload={handleDownloadCanvas} />
           ) : (
@@ -57,10 +57,10 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         </div>
 
         {/* Image Selection Thumbnails */}
-        <div className="w-full flex-shrink-0 mt-8"> {/* Añadido mt-8 para espacio */}
-          <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4> {/* Centrado */}
-          <ScrollArea className="h-[150px] w-full px-4"> {/* Altura fija para la scroll area */}
-            <div className="flex gap-3 justify-center"> {/* Centrar las miniaturas */}
+        <div className="w-full flex-shrink-0 mt-8">
+          <h4 className="text-2xl font-bold text-foreground mb-4 text-center">Tus Imágenes</h4> {/* Título más grande y negrita */}
+          <ScrollArea className="h-[150px] w-full px-4">
+            <div className="flex gap-4 justify-center"> {/* Aumentado el gap entre miniaturas */}
               {images.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center">
                   No hay imágenes cargadas.
@@ -70,7 +70,7 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
                   <div
                     key={`${img.filename}-${index}`}
                     className={`relative w-24 h-24 rounded-md overflow-hidden border-2 cursor-pointer transition-all duration-200 flex-shrink-0
-                      ${selectedImage?.filename === img.filename ? "border-primary ring-2 ring-primary" : "border-border hover:border-primary/50"}`}
+                      ${selectedImage?.filename === img.filename ? "border-primary ring-2 ring-primary" : "border-gray-300 dark:border-gray-700 hover:border-primary/50"}`} {/* Borde más claro */}
                     onClick={() => setSelectedImage(img)}
                   >
                     <img
