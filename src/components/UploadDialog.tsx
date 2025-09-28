@@ -37,7 +37,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
-        className="max-w-2xl p-8 bg-[#27292b] rounded-2xl shadow-lg flex flex-col max-h-[90vh] border-none" // Cambiado a max-w-2xl
+        className="max-w-xl p-8 bg-[#27292b] rounded-2xl shadow-lg flex flex-col max-h-[90vh] border-none" // Cambiado a max-w-xl
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader className="pb-4 text-center flex-shrink-0">
@@ -45,12 +45,12 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
         </DialogHeader>
         
         <div className="flex flex-col gap-6 flex-grow overflow-hidden">
-          <div className="mt-6 flex-shrink-0 mx-auto w-full max-w-2xl"> {/* Revertido a max-w-2xl */}
+          <div className="mt-6 flex-shrink-0 mx-auto w-full max-w-2xl">
             <ImageUploader onImagesSelected={onImagesSelected} />
           </div>
           
           {hasImages && (
-            <div className="flex-grow overflow-y-auto border border-gray-700 rounded-xl p-4 bg-[#27292b] mx-auto w-full max-w-2xl"> {/* Revertido a max-w-2xl */}
+            <div className="flex-grow overflow-y-auto border border-gray-700 rounded-xl p-4 bg-[#27292b] mx-auto w-full max-w-2xl">
               <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
             </div>
           )}
