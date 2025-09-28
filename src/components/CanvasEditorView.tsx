@@ -50,7 +50,7 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         {/* Image Selection Thumbnails */}
         <div className="w-full flex-shrink-0 mt-8">
           <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4>
-          <ScrollArea className="h-[250px] w-full px-4"> {/* Altura aumentada a 250px */}
+          <ScrollArea className="h-[400px] w-full px-4"> {/* Altura aumentada a 400px */}
             <div className="grid grid-cols-6 gap-3 justify-center">
               {images.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center">
