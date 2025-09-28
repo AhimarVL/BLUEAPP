@@ -7,7 +7,6 @@ import { Download, ZoomIn, ZoomOut, Move } from "lucide-react";
 import { saveAs } from "file-saver";
 import { toast } from "sonner";
 import { trimImageToContent } from "@/utils/imageProcessingUtils"; // Import the new utility
-import { Card } from "@/components/ui/card"; // Import Card component
 
 interface ImageFile {
   dataUrl: string;
@@ -141,14 +140,14 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
     if (canvas) {
       const dataUrl = canvas.toDataURL("image/png");
       const originalFilename = image.filename.split(".").slice(0, -1).join(".");
-      onDownload(dataUrl, `${originalFilename}.png`); // Removed -Lienzo suffix
+      onDownload(dataUrl, `${originalFilename}-Lienzo.png`);
     } else {
       toast.error("No se pudo generar la imagen para descargar.");
     }
   };
 
   return (
-    <Card className="flex flex-col items-center gap-6 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card border border-border rounded-xl w-full max-w-[550px]">
+    <div className="flex flex-col items-center gap-6 p-4 bg-card border border-border rounded-lg shadow-md">
       <h3 className="text-xl font-bold text-foreground text-center">{image.filename}</h3>
       <div
         className="relative border border-border rounded-md overflow-hidden cursor-grab active:cursor-grabbing"
@@ -163,7 +162,7 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
 
       <div className="w-full max-w-md flex flex-col gap-4">
         <div className="flex items-center gap-3">
-          <ZoomOut className="h-6 w-6 text-muted-foreground" />
+          <ZoomOut className="h-5 w-5 text-muted-foreground" />
           <Slider
             min={0.1}
             max={5}
@@ -172,9 +171,9 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
             onValueChange={handleZoom}
             className="w-full"
           />
-          <ZoomIn className="h-6 w-6 text-muted-foreground" />
+          <ZoomIn className="h-5 w-5 text-muted-foreground" />
         </div>
-        <div className="flex justify-center items-center gap-2 text-sm text-muted-foreground font-medium">
+        <div className="flex justify-center gap-2 text-sm text-muted-foreground">
           <Move className="h-4 w-4" /> Arrastra la imagen para moverla.
         </div>
       </div>
@@ -186,7 +185,7 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
       >
         <Download className="h-4 w-4" /> Descargar Lienzo Editado
       </Button>
-    </Card>
+    </div>
   );
 };
 
