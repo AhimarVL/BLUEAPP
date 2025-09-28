@@ -23,14 +23,10 @@ function Index() {
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
   const [selectedImages, setSelectedImages] = useState<ImageFile[]>([]);
 
-  // Estados para el radio de los bordes
+  // Estados para el radio de los bordes (ahora son los estados primarios para renderizado)
   const [mainDivBorderRadius, setMainDivBorderRadius] = useState<number>(12); // rounded-xl
   const [dialogBorderRadius, setDialogBorderRadius] = useState<number>(24); // rounded-3xl
   const [uploaderBorderRadius, setUploaderBorderRadius] = useState<number>(24); // rounded-3xl
-
-  const [tempMainDivBorderRadius, setTempMainDivBorderRadius] = useState<number>(mainDivBorderRadius);
-  const [tempDialogBorderRadius, setTempDialogBorderRadius] = useState<number>(dialogBorderRadius);
-  const [tempUploaderBorderRadius, setTempUploaderBorderRadius] = useState<number>(uploaderBorderRadius);
 
   const [selectedComponent, setSelectedComponent] = useState<string>("mainDiv");
 
@@ -44,21 +40,14 @@ function Index() {
     // Aquí podrías añadir lógica para procesar las imágenes
   };
 
-  const handleApplySettings = () => {
-    setMainDivBorderRadius(tempMainDivBorderRadius);
-    setDialogBorderRadius(tempDialogBorderRadius);
-    setUploaderBorderRadius(tempUploaderBorderRadius);
-    alert("Ajustes de bordes aplicados y guardados para esta sesión.");
-  };
-
   const getCurrentBorderRadius = () => {
     switch (selectedComponent) {
       case "mainDiv":
-        return tempMainDivBorderRadius;
+        return mainDivBorderRadius;
       case "uploadDialog":
-        return tempDialogBorderRadius;
+        return dialogBorderRadius;
       case "imageUploader":
-        return tempUploaderBorderRadius;
+        return uploaderBorderRadius;
       default:
         return 0;
     }
@@ -68,13 +57,13 @@ function Index() {
     const val = value[0];
     switch (selectedComponent) {
       case "mainDiv":
-        setTempMainDivBorderRadius(val);
+        setMainDivBorderRadius(val);
         break;
       case "uploadDialog":
-        setTempDialogBorderRadius(val);
+        setDialogBorderRadius(val);
         break;
       case "imageUploader":
-        setTempUploaderBorderRadius(val);
+        setUploaderBorderRadius(val);
         break;
       default:
         break;
@@ -131,10 +120,7 @@ function Index() {
             className="w-full"
           />
         </div>
-
-        <Button onClick={handleApplySettings} className="px-6 py-3 text-base bg-green-600 hover:bg-green-700 text-white">
-          Aplicar y Guardar Ajustes
-        </Button>
+        {/* El botón de aplicar se elimina ya que los cambios son inmediatos */}
       </div>
 
       <UploadDialog
