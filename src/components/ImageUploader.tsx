@@ -2,9 +2,9 @@
 
 import React, { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed CardDescription
 import { UploadCloud } from "lucide-react";
-import { cn } from "@/lib/utils"; // Import cn for conditional class merging
+import { cn } from "@/lib/utils";
 
 interface ImageUploaderProps {
   onImagesSelected: (images: { dataUrl: string; filename: string }[]) => void;
@@ -60,10 +60,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
     <Card
       className={cn(
         "w-full max-w-2xl p-6 text-center cursor-pointer transition-all duration-300 ease-in-out",
-        "border-2 border-dashed rounded-xl",
+        "border-2 rounded-xl", // Eliminado 'border-dashed'
         isDragging
-          ? "border-primary bg-primary/5 dark:bg-primary/20" // Usando primary para el borde y fondo en estado de arrastre
-          : "border-gray-300 bg-gray-50 hover:border-primary/80 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-primary/60 dark:hover:bg-gray-700", // Usando primary para el hover del borde
+          ? "border-primary bg-primary/5"
+          : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-700", // Fondo y hover ajustados
       )}
       onClick={handleClick}
       onDragOver={handleDragOver}
@@ -71,21 +71,17 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
       onDrop={handleDrop}
     >
       <CardHeader className="pb-4">
-        <CardTitle className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-          Cargar Imágenes (1500x1500)
+        <CardTitle className="text-2xl font-bold text-gray-100">
+          Cargar Imágenes
         </CardTitle>
-        <CardDescription className="text-gray-600 dark:text-gray-400">
-          Arrastra y suelta tus imágenes aquí, o haz clic para seleccionarlas.
-        </CardDescription>
+        {/* Eliminado CardDescription */}
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-4">
-        <UploadCloud className="h-16 w-16 text-primary dark:text-primary/80" /> {/* Usando primary para el icono */}
-        <p className="text-lg font-medium text-gray-700 dark:text-gray-200">
+        <UploadCloud className="h-16 w-16 text-primary" />
+        <p className="text-lg font-medium text-gray-200">
           Haz clic o arrastra archivos para subir
         </p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          Sube imágenes de 1500x1500 píxeles para mejores resultados.
-        </p>
+        {/* Eliminado el párrafo de sugerencia de tamaño */}
         <Input
           id="pictures"
           type="file"
@@ -93,7 +89,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
           multiple
           onChange={handleFileChange}
           ref={fileInputRef}
-          className="hidden" // Visually hide the input
+          className="hidden"
         />
       </CardContent>
     </Card>
