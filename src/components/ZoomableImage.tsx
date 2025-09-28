@@ -28,8 +28,8 @@ const ZoomableImage: React.FC<ZoomableImageProps> = ({
           <img src={src} alt={alt} className={cn("object-contain", className)} />
         </div>
       </HoverCardTrigger>
-      <HoverCardContent className="w-auto p-1 bg-card border border-border shadow-lg z-50">
-        <img src={src} alt={`Zoomed ${alt}`} className="w-[400px] h-[240px] object-contain" />
+      <HoverCardContent className="w-auto p-1 bg-card border border-primary shadow-lg z-50"> {/* Cambiado border-border a border-primary */}
+        <img src={src} alt={`Zoomed ${alt}`} className="w-[600px] h-[400px] object-contain" /> {/* Aumentado el tamaño del zoom */}
       </HoverCardContent>
     </HoverCard>
   );
