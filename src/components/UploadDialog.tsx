@@ -5,15 +5,15 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle, // Importar DialogTitle
-  DialogDescription, // Importar DialogDescription
+  DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ImageUploader from "@/components/ImageUploader";
 import UploadedImagePreviews from "@/components/UploadedImagePreviews";
-import { Slider } from "@/components/ui/slider"; // Importar Slider
-import { Label } from "@/components/ui/label"; // Importar Label
-import { toast } from "sonner"; // Importar toast para notificaciones
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 interface ImageFile {
   dataUrl: string;
@@ -39,20 +39,31 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   selectedImages,
   onRemoveImage,
 }) => {
-  const [borderRadius, setBorderRadius] = useState(12); // Valor por defecto para rounded-xl
+  const [uploaderBorderRadius, setUploaderBorderRadius] = useState(12); // Radio del borde para ImageUploader
+  const [previewsBorderRadius, setPreviewsBorderRadius] = useState(12); // Nuevo estado para el radio del borde de las previsualizaciones
 
-  // Cargar el radio del borde guardado desde localStorage al montar
+  // Cargar los radios del borde guardados desde localStorage al montar
   useEffect(() => {
-    const savedRadius = localStorage.getItem("imageUploaderBorderRadius");
-    if (savedRadius) {
-      setBorderRadius(parseFloat(savedRadius));
+    const savedUploaderRadius = localStorage.getItem("imageUploaderBorderRadius");
+    if (savedUploaderRadius) {
+      setUploaderBorderRadius(parseFloat(savedUploaderRadius));
+    }
+    const savedPreviewsRadius = localStorage.getItem("imagePreviewsBorderRadius");
+    if (savedPreviewsRadius) {
+      setPreviewsBorderRadius(parseFloat(savedPreviewsRadius));
     }
   }, []);
 
-  // Guardar el radio del borde en localStorage
-  const handleSaveConfig = () => {
-    localStorage.setItem("imageUploaderBorderRadius", borderRadius.toString());
-    toast.success("Configuración de borde guardada.");
+  // Guardar el radio del borde del cargador en localStorage
+  const handleSaveUploaderConfig = () => {
+    localStorage.setItem("imageUploaderBorderRadius", uploaderBorderRadius.toString());
+    toast.success("Configuración de borde del cargador guardada.");
+  };
+
+  // Guardar el radio del borde de las previsualizaciones en localStorage
+  const handleSavePreviewsConfig = () => {
+    localStorage.setItem("imagePreviewsBorderRadius", previewsBorderRadius.toString());
+    toast.success("Configuración de borde de previsualizaciones guardada.");
   };
 
   return (
@@ -70,35 +81,62 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
         
         <div className="flex flex-col gap-6 flex-grow overflow-hidden">
           <div className="mt-0 flex-shrink-0 mx-auto w-full max-w-lg">
-            <ImageUploader onImagesSelected={onImagesSelected} borderRadius={borderRadius} />
+            <ImageUploader onImagesSelected={onImagesSelected} borderRadius={uploaderBorderRadius} />
           </div>
           
-          {/* Controles para el radio del borde */}
+          {/* Controles para el radio del borde del cargador */}
           <div className="mx-auto w-full max-w-lg flex flex-col gap-4 p-4 border border-gray-700 rounded-xl bg-[#27292b]">
-            <Label htmlFor="border-radius-slider" className="text-gray-200 text-lg font-medium">
-              Radio del Borde del Cargador ({borderRadius}px)
+            <Label htmlFor="uploader-border-radius-slider" className="text-gray-200 text-lg font-medium">
+              Radio del Borde del Cargador ({uploaderBorderRadius}px)
             </Label>
             <Slider
-              id="border-radius-slider"
+              id="uploader-border-radius-slider"
               min={0}
               max={50}
               step={1}
-              value={[borderRadius]}
-              onValueChange={(value) => setBorderRadius(value[0])}
+              value={[uploaderBorderRadius]}
+              onValueChange={(value) => setUploaderBorderRadius(value[0])}
               className="w-full"
             />
             <Button
-              onClick={handleSaveConfig}
+              onClick={handleSaveUploaderConfig}
               className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/80"
             >
-              Guardar Configuración de Borde
+              Guardar Configuración de Borde del Cargador
             </Button>
           </div>
 
           {hasImages && (
-            <div className="flex-grow overflow-y-auto border border-gray-700 rounded-xl p-4 bg-[#27292b] mx-auto w-full max-w-lg">
-              <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
-            </div>
+            <>
+              {/* Controles para el radio del borde de las previsualizaciones */}
+              <div className="mx-auto w-full max-w-lg flex flex-col gap-4 p-4 border border-gray-700 rounded-xl bg-[#27292b]">
+                <Label htmlFor="previews-border-radius-slider" className="text-gray-200 text-lg font-medium">
+                  Radio del Borde de Previsualizaciones ({previewsBorderRadius}px)
+                </Label>
+                <Slider
+                  id="previews-border-radius-slider"
+                  min={0}
+                  max={50}
+                  step={1}
+                  value={[previewsBorderRadius]}
+                  onValueChange={(value) => setPreviewsBorderRadius(value[0])}
+                  className="w-full"
+                />
+                <Button
+                  onClick={handleSavePreviewsConfig}
+                  className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                >
+                  Guardar Configuración de Borde de Previsualizaciones
+                </Button>
+              </div>
+
+              <div 
+                className="flex-grow overflow-y-auto border border-gray-700 p-4 bg-[#27292b] mx-auto w-full max-w-lg"
+                style={{ borderRadius: `${previewsBorderRadius}px` }} // Aplicar el radio del borde aquí
+              >
+                <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
+              </div>
+            </>
           )}
         </div>
 
