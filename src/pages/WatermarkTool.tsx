@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import OriginalImageCard from "@/components/OriginalImageCard";
 import ImagePreviewDialog from "@/components/ImagePreviewDialog";
 import CanvasEditorView from "@/components/CanvasEditorView";
+import ImageGroupDisplay from "@/components/ImageGroupDisplay"; // Importar el nuevo componente
 import { Card, CardContent } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import JSZip from "jszip";
@@ -186,19 +187,33 @@ const WatermarkTool: React.FC = () => {
                 <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
                   Previsualización de Imágenes
                 </h2>
-                {displayedImages.length === 0 ? (
+                {selectedImages.length === 0 ? (
                   <p className="text-xl text-gray-500 dark:text-gray-400 text-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl w-full max-w-xl mx-auto bg-gray-100 dark:bg-gray-800">
                     Carga imágenes para empezar a ver las previsualizaciones.
                   </p>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
-                    {displayedImages.map((image, index) => (
-                      <OriginalImageCard
-                        key={`${image.filename}-${index}`}
-                        image={image}
-                        onView={handleViewImage}
-                      />
-                    ))}
+                  <div className="space-y-10"> {/* Añadir espacio entre grupos */}
+                    {selectedGroup === null ? (
+                      // Mostrar todos los grupos con encabezados
+                      Object.entries(groupedImages).map(([code, images]) => (
+                        <ImageGroupDisplay
+                          key={code}
+                          code={code}
+                          images={images}
+                          onView={handleViewImage}
+                        />
+                      ))
+                    ) : (
+                      // Mostrar solo el grupo seleccionado
+                      groupedImages[selectedGroup] && (
+                        <ImageGroupDisplay
+                          key={selectedGroup}
+                          code={selectedGroup}
+                          images={groupedImages[selectedGroup]}
+                          onView={handleViewImage}
+                        />
+                      )
+                    )}
                   </div>
                 )}
               </div>
