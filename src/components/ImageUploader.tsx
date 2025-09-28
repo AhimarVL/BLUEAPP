@@ -61,10 +61,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
     <Card
       className={cn(
         "w-full max-w-2xl p-6 text-center transition-all duration-300 ease-in-out cursor-pointer",
-        "border-2 rounded-3xl backdrop-blur-sm", // Glassmorphism aplicado aquí
+        "border-2 rounded-3xl", // Revertido: eliminado backdrop-blur-sm
         isDragging
           ? "border-primary bg-primary/5"
-          : "border-white/20 dark:border-gray-700/50 bg-white/5 dark:bg-gray-800/20 hover:border-primary/80 hover:bg-white/10 dark:hover:bg-gray-800/30", // Fondos semi-transparentes
+          : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-800", // Revertido a fondo oscuro sólido
       )}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}

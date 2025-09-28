@@ -27,7 +27,7 @@ const SplashScreen: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#4e4e4e] text-white p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#1a1a1a] text-white p-4"> {/* Fondo oscuro consistente */}
       <div className="text-center p-10 bg-[#1f1f1f] rounded-xl shadow-lg border border-gray-700 max-w-lg w-full">
         <h1 className="text-5xl font-bold mb-8 text-white">
           Bienvenido

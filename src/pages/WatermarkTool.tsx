@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import OriginalImageCard from "@/components/OriginalImageCard";
 import ImagePreviewDialog from "@/components/ImagePreviewDialog";
 import CanvasEditorView from "@/components/CanvasEditorView";
+import AnimatedBackground from "@/components/AnimatedBackground"; // Importar el nuevo componente
 import { Card, CardContent } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import JSZip from "jszip";
@@ -146,7 +147,9 @@ const WatermarkTool: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
+    <div className="h-screen w-screen overflow-hidden bg-background text-foreground relative"> {/* Añadir relative para posicionar el fondo animado */}
+      {isUploadDialogOpen && <AnimatedBackground />} {/* Renderizar el fondo animado solo cuando el diálogo de carga está abierto */}
+
       {isUploadDialogOpen ? (
         <UploadDialog
           isOpen={isUploadDialogOpen}

@@ -24,7 +24,7 @@ const UploadedImagePreviews: React.FC<UploadedImagePreviewsProps> = ({
       {images.map((image, index) => (
         <Card 
           key={`${image.filename}-${index}`} 
-          className="flex items-center p-2 bg-white/5 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/50 rounded-xl shadow-sm backdrop-blur-sm" // Glassmorphism aplicado aquí
+          className="flex items-center p-2 bg-[#27292b] border border-gray-700 rounded-xl shadow-sm" // Revertido a fondo oscuro sólido
         >
           <div className="relative w-10 h-10 rounded-md overflow-hidden border border-muted flex items-center justify-center bg-background flex-shrink-0">
             <img

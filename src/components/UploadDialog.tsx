@@ -37,7 +37,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
-        className="max-w-3xl p-8 bg-white/10 dark:bg-gray-800/30 rounded-2xl shadow-lg flex flex-col max-h-[90vh] border border-white/20 dark:border-gray-700/50 backdrop-blur-md" // Glassmorphism aplicado aquí
+        className="max-w-3xl p-8 bg-[#27292b] rounded-2xl shadow-lg flex flex-col max-h-[90vh] border-none" // Revertido a fondo oscuro sólido
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader className="pb-4 text-center flex-shrink-0">
@@ -50,7 +50,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
           </div>
           
           {hasImages && (
-            <div className="flex-grow overflow-y-auto border border-white/20 dark:border-gray-700/50 rounded-xl p-4 bg-white/5 dark:bg-gray-800/20 backdrop-blur-sm mx-auto w-full max-w-2xl"> {/* Glassmorphism aplicado aquí */}
+            <div className="flex-grow overflow-y-auto border border-gray-700 rounded-xl p-4 bg-[#27292b] mx-auto w-full max-w-2xl"> {/* Revertido a fondo oscuro sólido */}
               <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
             </div>
           )}
