@@ -45,7 +45,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
         </DialogHeader>
         
         <div className="flex flex-col gap-6 flex-grow overflow-hidden">
-          <div className="mt-6 flex-shrink-0 mx-auto w-full max-w-lg"> {/* Cambiado a max-w-lg */}
+          <div className="mt-0 flex-shrink-0 mx-auto w-full max-w-lg"> {/* Cambiado de mt-6 a mt-0 */}
             <ImageUploader onImagesSelected={onImagesSelected} />
           </div>
           
