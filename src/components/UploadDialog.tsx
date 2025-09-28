@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ImageUploader from "@/components/ImageUploader";
-import UploadedImagePreviews from "@/components/UploadedImagePreviews";
+import UploadedImagePreviews from "@/components/UploadedImagePreviews"; // Mantener la importación
 
 interface ImageFile {
   dataUrl: string;
@@ -24,6 +24,7 @@ interface UploadDialogProps {
   onConfirm: () => void;
   hasImages: boolean;
   selectedImages: ImageFile[];
+  onRemoveImage: (filename: string) => void; // Nueva prop para eliminar imágenes
 }
 
 const UploadDialog: React.FC<UploadDialogProps> = ({
@@ -33,6 +34,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   onConfirm,
   hasImages,
   selectedImages,
+  onRemoveImage, // Recibir la nueva prop
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -48,16 +50,21 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
         <div className="mt-6 flex-shrink-0">
           <ImageUploader onImagesSelected={onImagesSelected} />
         </div>
+        
+        {hasImages && (
+          <div className="flex-grow overflow-y-auto mt-6 border border-gray-700 rounded-xl p-4 bg-[#27292b]">
+            <h3 className="text-xl font-bold text-gray-100 mb-4 text-center">Archivos Cargados</h3>
+            <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
+          </div>
+        )}
+
         <div className="flex justify-end mt-8 gap-4 flex-shrink-0">
-          <Button onClick={onClose} variant="outline" className="px-6 py-3 text-base">
+          <Button onClick={onClose} variant="outline" className="px-6 py-3 text-base border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white">
             Cancelar
           </Button>
           <Button onClick={onConfirm} disabled={!hasImages} className="px-6 py-3 text-base bg-primary text-primary-foreground hover:bg-primary/90">
             Confirmar
           </Button>
-        </div>
-        <div className="flex-grow overflow-y-auto mt-6">
-          <UploadedImagePreviews images={selectedImages} />
         </div>
       </DialogContent>
     </Dialog>

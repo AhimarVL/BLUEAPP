@@ -68,6 +68,13 @@ const WatermarkTool: React.FC = () => {
     setSelectedImages((prevImages) => [...prevImages, ...newImages]);
   };
 
+  const handleRemoveImage = (filenameToRemove: string) => {
+    setSelectedImages((prevImages) =>
+      prevImages.filter((image) => image.filename !== filenameToRemove)
+    );
+    toast.info(`"${filenameToRemove}" ha sido eliminado.`);
+  };
+
   const handleConfirmUpload = () => {
     if (selectedImages.length > 0) {
       setIsUploadDialogOpen(false);
@@ -155,6 +162,7 @@ const WatermarkTool: React.FC = () => {
           onConfirm={handleConfirmUpload}
           hasImages={selectedImages.length > 0}
           selectedImages={selectedImages}
+          onRemoveImage={handleRemoveImage} // Pasar la función de eliminación
         />
       ) : (
         <ResizablePanelGroup direction="horizontal" className="h-full">

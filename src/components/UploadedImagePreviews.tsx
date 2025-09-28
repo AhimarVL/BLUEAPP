@@ -1,71 +1,55 @@
 "use client";
 
-import React, { useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import { XCircle } from "lucide-react"; // Importar icono de eliminar
 
 interface ImageFile {
   dataUrl: string;
   filename: string;
 }
 
-interface GroupedImages {
-  [code: string]: ImageFile[];
-}
-
 interface UploadedImagePreviewsProps {
   images: ImageFile[];
+  onRemoveImage: (filename: string) => void; // Nueva prop para eliminar
 }
 
-const UploadedImagePreviews: React.FC<UploadedImagePreviewsProps> = ({ images }) => {
-  const groupedImages = useMemo(() => {
-    const groups: GroupedImages = {};
-    images.forEach((image) => {
-      const match = image.filename.match(/^([a-zA-Z0-9_]+)(-\d+)?\.\w+$/);
-      const code = match ? match[1] : "Sin Código";
-
-      if (!groups[code]) {
-        groups[code] = [];
-      }
-      groups[code].push(image);
-    });
-    return groups;
-  }, [images]);
-
+const UploadedImagePreviews: React.FC<UploadedImagePreviewsProps> = ({ images, onRemoveImage }) => {
   if (images.length === 0) {
-    return null; // No renderizar si no hay imágenes
+    return (
+      <p className="text-center text-gray-400 text-sm">
+        No hay imágenes cargadas aún.
+      </p>
+    );
   }
 
   return (
-    <div className="mt-8 max-h-[400px]"> {/* Altura máxima para el scroll */}
-      <h3 className="text-xl font-bold text-foreground mb-4 text-center">Imágenes Cargadas</h3>
-      <ScrollArea className="h-full w-full pr-4">
-        <div className="flex flex-col gap-6">
-          {Object.entries(groupedImages).map(([code, group]) => (
-            <Card key={code} className="bg-card border border-border shadow-sm">
-              <CardHeader className="py-3 px-4">
-                <CardTitle className="text-lg font-semibold text-foreground">{code}</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
-                {group.map((image, index) => (
-                  <div
-                    key={`${image.filename}-${index}`}
-                    className="relative w-20 h-20 rounded-md overflow-hidden border border-muted flex items-center justify-center bg-background"
-                  >
-                    <img
-                      src={image.dataUrl}
-                      alt={image.filename}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </ScrollArea>
-    </div>
+    <ScrollArea className="h-full w-full">
+      <div className="flex flex-col gap-3">
+        {images.map((image, index) => (
+          <Card key={`${image.filename}-${index}`} className="flex items-center p-2 bg-[#1f1f1f] border border-gray-700 rounded-lg shadow-sm">
+            <div className="relative w-12 h-12 rounded-md overflow-hidden border border-muted flex items-center justify-center bg-background flex-shrink-0">
+              <img
+                src={image.dataUrl}
+                alt={image.filename}
+                className="object-cover w-full h-full"
+              />
+            </div>
+            <p className="ml-4 flex-grow text-sm text-gray-200 truncate">
+              {image.filename}
+            </p>
+            <button
+              onClick={() => onRemoveImage(image.filename)}
+              className="ml-auto p-1 text-gray-400 hover:text-destructive transition-colors duration-200"
+              aria-label={`Eliminar ${image.filename}`}
+            >
+              <XCircle className="h-5 w-5" />
+            </button>
+          </Card>
+        ))}
+      </div>
+    </ScrollArea>
   );
 };
 

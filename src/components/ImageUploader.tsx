@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button"; // Importar Button
 
 interface ImageUploaderProps {
   onImagesSelected: (images: { dataUrl: string; filename: string }[]) => void;
@@ -52,34 +53,37 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
     handleFileChange(event);
   };
 
-  const handleClick = () => {
+  const handleClickBrowse = () => {
     fileInputRef.current?.click();
   };
 
   return (
     <Card
       className={cn(
-        "w-full max-w-2xl p-6 text-center cursor-pointer transition-all duration-300 ease-in-out",
-        "border-2 rounded-3xl", // Cambiado a rounded-3xl
+        "w-full max-w-2xl p-6 text-center transition-all duration-300 ease-in-out",
+        "border-2 rounded-3xl",
         isDragging
           ? "border-primary bg-primary/5"
           : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-700",
       )}
-      onClick={handleClick}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       <CardHeader className="pb-4">
         <CardTitle className="text-2xl font-bold text-gray-100">
-          Cargar Imágenes
+          Cargar Archivos
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-4">
         <UploadCloud className="h-16 w-16 text-primary" />
         <p className="text-lg font-medium text-gray-200">
-          Haz clic o arrastra archivos para subir
+          Arrastra y suelta tus archivos aquí
         </p>
+        <p className="text-sm text-gray-400">o</p>
+        <Button onClick={handleClickBrowse} className="px-6 py-3 text-base bg-primary text-primary-foreground hover:bg-primary/90">
+          Buscar Archivos
+        </Button>
         <Input
           id="pictures"
           type="file"
