@@ -27,14 +27,14 @@ const SplashScreen: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#f2f0fe] text-foreground p-4"> {/* Fondo claro #f2f0fe y texto oscuro */}
-      <div className="text-center p-10 bg-card rounded-xl shadow-lg border border-border max-w-lg w-full"> {/* Usar bg-card y border-border */}
-        <h1 className="text-5xl font-bold mb-8 text-foreground"> {/* Texto oscuro */}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#f2f0fe] text-foreground p-4"> {/* Fondo claro #f2f0fe */}
+      <div className="text-center p-10 bg-[#1f1f1f] rounded-xl shadow-lg border border-gray-700 max-w-lg w-full"> {/* Contenedor oscuro #1f1f1f */}
+        <h1 className="text-5xl font-bold mb-8 text-gray-100"> {/* Texto claro para el fondo oscuro */}
           Bienvenido
         </h1>
         <div className="w-full max-w-xs mx-auto">
-          <Progress value={progress} className="w-full h-2 bg-muted" indicatorClassName="bg-primary" /> {/* Fondo de progreso muted */}
-          <p className="text-sm text-muted-foreground mt-2">Cargando...</p> {/* Texto de carga muted-foreground */}
+          <Progress value={progress} className="w-full h-2 bg-gray-700" indicatorClassName="bg-primary" /> {/* Fondo de progreso oscuro, indicador primario */}
+          <p className="text-sm text-gray-400 mt-2">Cargando...</p> {/* Texto de carga claro */}
         </div>
       </div>
     </div>
