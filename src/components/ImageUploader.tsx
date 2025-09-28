@@ -5,13 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
-// Ya no se necesita el componente Button aquí, ya que la tarjeta será clickeable
 
 interface ImageUploaderProps {
   onImagesSelected: (images: { dataUrl: string; filename: string }[]) => void;
+  borderRadius?: number; // Nueva prop para el radio del borde
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected, borderRadius }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -60,12 +60,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
   return (
     <Card
       className={cn(
-        "w-full max-w-lg p-6 text-center transition-all duration-300 ease-in-out cursor-pointer", // Cambiado a max-w-lg
-        "border-2 rounded-3xl",
+        "w-full max-w-lg p-6 text-center transition-all duration-300 ease-in-out cursor-pointer",
+        "border-2", // Mantener border-2
         isDragging
           ? "border-primary bg-primary/5"
           : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-800",
       )}
+      style={{ borderRadius: borderRadius !== undefined ? `${borderRadius}px` : undefined }} // Aplicar el radio del borde
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
