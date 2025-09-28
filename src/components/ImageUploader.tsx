@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed CardDescription
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -60,10 +60,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
     <Card
       className={cn(
         "w-full max-w-2xl p-6 text-center cursor-pointer transition-all duration-300 ease-in-out",
-        "border-2 rounded-xl", // Eliminado 'border-dashed'
+        "border-2 rounded-2xl", // Cambiado a rounded-2xl
         isDragging
           ? "border-primary bg-primary/5"
-          : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-700", // Fondo y hover ajustados
+          : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-700",
       )}
       onClick={handleClick}
       onDragOver={handleDragOver}
@@ -74,14 +74,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
         <CardTitle className="text-2xl font-bold text-gray-100">
           Cargar Imágenes
         </CardTitle>
-        {/* Eliminado CardDescription */}
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center space-y-4">
         <UploadCloud className="h-16 w-16 text-primary" />
         <p className="text-lg font-medium text-gray-200">
           Haz clic o arrastra archivos para subir
         </p>
-        {/* Eliminado el párrafo de sugerencia de tamaño */}
         <Input
           id="pictures"
           type="file"
