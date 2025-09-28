@@ -80,16 +80,26 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
         initialDrawWidth = safeAreaHeight * imgAspectRatio;
       }
 
+      // Calculate initial position if scale was 1 and offset was 0
+      const initialDrawX = marginX + (safeAreaWidth - initialDrawWidth) / 2;
+      const initialDrawY = marginY + (safeAreaHeight - initialDrawHeight) / 2;
+
+      // Draw initial fit border (green dotted)
+      ctx.strokeStyle = "rgba(0, 128, 0, 0.7)"; // Green, semi-transparent
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 2]); // Dotted line
+      ctx.strokeRect(initialDrawX, initialDrawY, initialDrawWidth, initialDrawHeight);
+
       // Apply current scale and offset
       const scaledWidth = initialDrawWidth * scale;
       const scaledHeight = initialDrawHeight * scale;
 
-      const drawX = marginX + (safeAreaWidth - scaledWidth) / 2 + offsetX;
-      const drawY = marginY + (safeAreaHeight - scaledHeight) / 2 + offsetY;
+      const drawX = initialDrawX + (initialDrawWidth - scaledWidth) / 2 + offsetX;
+      const drawY = initialDrawY + (initialDrawHeight - scaledHeight) / 2 + offsetY;
 
       ctx.drawImage(img, drawX, drawY, scaledWidth, scaledHeight);
 
-      // Draw blue border around the actual image content
+      // Draw blue border around the actual image content (current scaled position)
       ctx.strokeStyle = "blue"; // Blue color for the image border
       ctx.lineWidth = 1; // Thinner line for the image border
       ctx.setLineDash([]); // Ensure it's a solid line
@@ -153,11 +163,10 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-6 p-4 bg-card border border-border rounded-lg shadow-md w-full max-w-4xl mx-auto"> {/* Añadido max-w-4xl y mx-auto */}
+    <div className="flex flex-col items-center gap-6 p-4 bg-card border border-border rounded-lg shadow-md w-full max-w-4xl mx-auto">
       <h3 className="text-xl font-bold text-foreground text-center">{image.filename}</h3>
 
-      <div className="flex flex-col md:flex-row gap-6 w-full justify-center items-center md:items-start"> {/* Contenedor para layout horizontal */}
-        {/* Canvas a la izquierda */}
+      <div className="flex flex-col md:flex-row gap-6 w-full justify-center items-center md:items-start">
         <div
           className="relative border border-border rounded-md overflow-hidden cursor-grab active:cursor-grabbing flex-shrink-0"
           style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
@@ -169,8 +178,7 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
           <canvas ref={canvasRef} className="block" />
         </div>
 
-        {/* Controles a la derecha */}
-        <div className="flex flex-col gap-4 w-full md:w-auto md:max-w-xs justify-between h-[300px]"> {/* Ajustado ancho y añadido justify-between */}
+        <div className="flex flex-col gap-4 w-full md:w-auto md:max-w-xs justify-between h-[300px]">
           <div className="w-full flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <ZoomOut className="h-5 w-5 text-muted-foreground" />
