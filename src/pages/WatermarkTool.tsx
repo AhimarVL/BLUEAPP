@@ -9,7 +9,7 @@ import CanvasEditorView from "@/components/CanvasEditorView";
 import ImageGroupDisplay from "@/components/ImageGroupDisplay";
 import { Card, CardContent } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
-import { Separator } from "@/components/ui/separator"; // Importar Separator
+import { Separator } from "@/components/ui/separator";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { applyWatermarkToImage } from "@/utils/watermarkUtils";
@@ -184,7 +184,7 @@ const WatermarkTool: React.FC = () => {
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={80}>
             {currentRightPanel === 'previews' ? (
-              <div className="h-full overflow-y-auto p-8 bg-white dark:bg-gray-950">
+              <div className="h-full overflow-y-auto p-8 bg-white"> {/* Fondo blanco fijo */}
                 <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
                   Previsualización de Imágenes
                 </h2>

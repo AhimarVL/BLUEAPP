@@ -42,9 +42,9 @@ const Sidebar: React.FC<SidebarProps> = ({
   const hasImages = Object.keys(groupedImages).length > 0;
 
   return (
-    <div className="flex flex-col h-full bg-card border-r border-border p-4">
+    <div className="flex flex-col h-full bg-gray-950 border-r border-gray-800 p-4 text-white"> {/* Fondo oscuro y texto blanco */}
       <div className="flex flex-col gap-3 mb-6">
-        <Button onClick={onReset} variant="outline" className="w-full flex items-center justify-center gap-2 text-foreground hover:bg-muted">
+        <Button onClick={onReset} variant="outline" className="w-full flex items-center justify-center gap-2 text-gray-200 hover:bg-gray-800 border-gray-700">
           <RotateCcw className="h-4 w-4 text-primary" /> Reiniciar
         </Button>
         <Button onClick={onAddImages} className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
@@ -53,14 +53,14 @@ const Sidebar: React.FC<SidebarProps> = ({
         <Button
           onClick={onDownloadAll}
           disabled={isDownloading || !hasImages}
-          className="w-full flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
+          className="w-full flex items-center justify-center gap-2 bg-gray-700 text-white hover:bg-gray-600"
         >
           {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
           <Download className="h-4 w-4 text-primary" />
         </Button>
       </div>
 
-      <Separator className="my-4" />
+      <Separator className="my-4 bg-gray-700" /> {/* Separador oscuro */}
 
       {/* Apartado para cambiar entre vistas del panel derecho */}
       <div className="mb-6 flex flex-col gap-3">
@@ -69,7 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           variant={currentRightPanel === 'previews' ? "secondary" : "ghost"}
           className={cn(
             "w-full flex items-center justify-center gap-2",
-            currentRightPanel === 'previews' && "bg-muted text-foreground"
+            currentRightPanel === 'previews' ? "bg-gray-700 text-white hover:bg-gray-600" : "text-gray-300 hover:bg-gray-800"
           )}
           disabled={!hasImages}
         >
@@ -80,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           variant={currentRightPanel === 'canvasEditor' ? "secondary" : "ghost"}
           className={cn(
             "w-full flex items-center justify-center gap-2",
-            currentRightPanel === 'canvasEditor' && "bg-muted text-foreground"
+            currentRightPanel === 'canvasEditor' ? "bg-gray-700 text-white hover:bg-gray-600" : "text-gray-300 hover:bg-gray-800"
           )}
           disabled={!hasImages}
         >
@@ -88,11 +88,11 @@ const Sidebar: React.FC<SidebarProps> = ({
         </Button>
       </div>
 
-      <Separator className="my-4" />
+      <Separator className="my-4 bg-gray-700" /> {/* Separador oscuro */}
 
-      <h3 className="text-lg font-semibold text-foreground mb-3">Imágenes Cargadas</h3>
+      <h3 className="text-lg font-semibold text-white mb-3">Imágenes Cargadas</h3> {/* Texto blanco */}
       {!hasImages ? (
-        <p className="text-sm text-muted-foreground text-center py-4">
+        <p className="text-sm text-gray-400 text-center py-4">
           No hay imágenes cargadas.
         </p>
       ) : (
@@ -103,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => onSelectGroup(null)}
               className={cn(
                 "w-full justify-start",
-                selectedGroup === null && "bg-muted text-foreground"
+                selectedGroup === null ? "bg-gray-700 text-white hover:bg-gray-600" : "text-gray-300 hover:bg-gray-800"
               )}
             >
               <ImageIcon className="h-4 w-4 mr-2 text-primary" /> Todas las Imágenes
@@ -115,7 +115,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 onClick={() => onSelectGroup(code)}
                 className={cn(
                   "w-full justify-start",
-                  selectedGroup === code && "bg-muted text-foreground"
+                  selectedGroup === code ? "bg-gray-700 text-white hover:bg-gray-600" : "text-gray-300 hover:bg-gray-800"
                 )}
               >
                 <ImageIcon className="h-4 w-4 mr-2 text-primary" /> {code} ({images.length})
