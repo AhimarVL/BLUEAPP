@@ -48,7 +48,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
           
           {hasImages && (
             <div className="flex-grow overflow-y-auto border border-gray-700 rounded-xl p-4 bg-[#27292b] mx-auto w-full max-w-2xl"> {/* Centrado y ancho máximo */}
-              <h3 className="text-xl font-bold text-gray-100 mb-4 text-center">Archivos Cargados</h3>
+              {/* <h3 className="text-xl font-bold text-gray-100 mb-4 text-center">Archivos Cargados</h3> */} {/* Este texto ha sido eliminado */}
               <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
             </div>
           )}
