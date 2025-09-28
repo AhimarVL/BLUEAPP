@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Fondo blanco */
+    --background: 248 75% 97%; /* Fondo blanco azulado (#f2f0fe) */
     --foreground: 222.2 84% 4.9%; /* Texto oscuro */
 
     --card: 0 0% 100%; /* Tarjetas blancas */
@@ -72,6 +72,8 @@
     --border: 240 10% 18%; /* Borde gris oscuro */
     --input: 240 10% 18%;
     --ring: 259 80% 60%; /* Ring de foco violeta (#7948ea) */
+
+    --radius: 0.5rem; /* Bordes ligeramente más suaves */
 
     --sidebar-background: 240 10% 8%; /* Fondo de la barra lateral gris oscuro */
     --sidebar-foreground: 0 0% 98%; /* Texto de la barra lateral blanco */
