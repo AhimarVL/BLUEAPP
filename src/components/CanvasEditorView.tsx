@@ -50,8 +50,8 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         {/* Image Selection Thumbnails */}
         <div className="w-full flex-shrink-0 mt-8">
           <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4>
-          <ScrollArea className="h-[400px] w-full px-4"> {/* Altura aumentada a 400px */}
-            <div className="grid grid-cols-6 gap-3 justify-center">
+          <ScrollArea className="h-[400px] w-full px-4">
+            <div className="grid grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-3 justify-center"> {/* Cuadrícula más responsiva */}
               {images.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center">
                   No hay imágenes cargadas.
@@ -60,7 +60,7 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
                 images.map((img, index) => (
                   <div
                     key={`${img.filename}-${index}`}
-                    className={`relative w-24 h-24 rounded-md overflow-hidden border-2 cursor-pointer transition-all duration-200 flex-shrink-0
+                    className={`relative w-28 h-28 rounded-md overflow-hidden border-2 cursor-pointer transition-all duration-200 flex-shrink-0 {/* Tamaño de miniatura aumentado */}
                       ${selectedImage?.filename === img.filename ? "border-primary ring-2 ring-primary" : "border-border hover:border-primary/50"}`}
                     onClick={() => setSelectedImage(img)}
                   >
