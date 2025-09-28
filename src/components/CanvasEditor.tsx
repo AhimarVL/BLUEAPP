@@ -84,12 +84,6 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
       const initialDrawX = marginX + (safeAreaWidth - initialDrawWidth) / 2;
       const initialDrawY = marginY + (safeAreaHeight - initialDrawHeight) / 2;
 
-      // Draw initial fit border (green dotted)
-      ctx.strokeStyle = "rgba(0, 128, 0, 0.7)"; // Green, semi-transparent
-      ctx.lineWidth = 1;
-      ctx.setLineDash([2, 2]); // Dotted line
-      ctx.strokeRect(initialDrawX, initialDrawY, initialDrawWidth, initialDrawHeight);
-
       // Apply current scale and offset
       const scaledWidth = initialDrawWidth * scale;
       const scaledHeight = initialDrawHeight * scale;
@@ -97,22 +91,29 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
       const drawX = initialDrawX + (initialDrawWidth - scaledWidth) / 2 + offsetX;
       const drawY = initialDrawY + (initialDrawHeight - scaledHeight) / 2 + offsetY;
 
+      // 1. Draw the image
       ctx.drawImage(img, drawX, drawY, scaledWidth, scaledHeight);
 
-      // Draw blue border around the actual image content (current scaled position)
+      // 2. Draw initial fit border (green dotted) - NOW DRAWN AFTER THE IMAGE
+      ctx.strokeStyle = "green"; // Green, fully opaque
+      ctx.lineWidth = 2; // Thicker line
+      ctx.setLineDash([2, 2]); // Dotted line
+      ctx.strokeRect(initialDrawX, initialDrawY, initialDrawWidth, initialDrawHeight);
+      ctx.setLineDash([]); // Reset line dash immediately after drawing green line
+
+      // 3. Draw blue border around the actual image content (current scaled position)
       ctx.strokeStyle = "blue"; // Blue color for the image border
       ctx.lineWidth = 1; // Thinner line for the image border
-      ctx.setLineDash([]); // Ensure it's a solid line
       ctx.strokeRect(drawX, drawY, scaledWidth, scaledHeight);
 
-      // Draw margin lines (red dashed)
+      // 4. Draw margin lines (red dashed)
       ctx.strokeStyle = "rgba(255, 0, 0, 0.7)"; // Red, semi-transparent
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 5]); // Dashed line
       ctx.strokeRect(marginX, marginY, safeAreaWidth, safeAreaHeight);
       ctx.setLineDash([]); // Reset line dash for other drawings
     };
-  }, [trimmedImageDataUrl, scale, offsetX, offsetY]); // Depend on trimmedImageDataUrl
+  }, [trimmedImageDataUrl, scale, offsetX, offsetY]);
 
   useEffect(() => {
     drawImageOnCanvas();
