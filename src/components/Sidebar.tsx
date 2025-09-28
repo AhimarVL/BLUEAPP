@@ -55,8 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           disabled={isDownloading || !hasImages}
           className="w-full flex items-center justify-start gap-2 bg-gray-700 text-white hover:bg-gray-600"
         >
-          {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
-          <Download className="h-4 w-4 ml-auto text-white" />
+          <Download className="h-4 w-4 mr-2 text-white" /> {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
         </Button>
       </div>
 
