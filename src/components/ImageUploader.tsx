@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button"; // Importar Button
+// Ya no se necesita el componente Button aquí, ya que la tarjeta será clickeable
 
 interface ImageUploaderProps {
   onImagesSelected: (images: { dataUrl: string; filename: string }[]) => void;
@@ -53,14 +53,14 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
     handleFileChange(event);
   };
 
-  const handleClickBrowse = () => {
+  const handleClickCard = () => {
     fileInputRef.current?.click();
   };
 
   return (
     <Card
       className={cn(
-        "w-full max-w-2xl p-6 text-center transition-all duration-300 ease-in-out",
+        "w-full max-w-2xl p-6 text-center transition-all duration-300 ease-in-out cursor-pointer", // Añadido cursor-pointer
         "border-2 rounded-3xl",
         isDragging
           ? "border-primary bg-primary/5"
@@ -69,6 +69,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
+      onClick={handleClickCard} // Hace que toda la tarjeta sea clickeable
     >
       <CardHeader className="pb-4">
         <CardTitle className="text-2xl font-bold text-gray-100">
@@ -80,10 +81,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
         <p className="text-lg font-medium text-gray-200">
           Arrastra y suelta tus archivos aquí
         </p>
-        <p className="text-sm text-gray-400">o</p>
-        <Button onClick={handleClickBrowse} className="px-6 py-3 text-base bg-primary text-primary-foreground hover:bg-primary/90">
-          Buscar Archivos
-        </Button>
+        <p className="text-sm text-gray-400">o haz click para buscar</p> {/* Texto actualizado */}
+        {/* Botón eliminado */}
         <Input
           id="pictures"
           type="file"
