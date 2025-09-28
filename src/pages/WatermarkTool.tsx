@@ -184,17 +184,17 @@ const WatermarkTool: React.FC = () => {
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={80}>
             <div className="flex flex-col h-full bg-white dark:bg-gray-950"> {/* Contenedor principal del panel derecho */}
-              {/* Encabezado fijo */}
-              <div className="flex-shrink-0 p-8 pb-4 border-b border-border">
-                <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
-                  {currentRightPanel === 'previews' ? "Previsualización de Imágenes" : "Editor de Imágenes para Lienzo"}
-                </h2>
-                <p className="text-center text-muted-foreground mt-2">
-                  {currentRightPanel === 'previews'
-                    ? "Aquí puedes ver tus imágenes cargadas y sus previsualizaciones."
-                    : "Ajusta tus imágenes en el lienzo de 500x300 píxeles."}
-                </p>
-              </div>
+              {/* Encabezado fijo - ahora condicional */}
+              {currentRightPanel === 'previews' && (
+                <div className="flex-shrink-0 p-8 pb-4 border-b border-border">
+                  <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+                    Previsualización de Imágenes
+                  </h2>
+                  <p className="text-center text-muted-foreground mt-2">
+                    Aquí puedes ver tus imágenes cargadas y sus previsualizaciones.
+                  </p>
+                </div>
+              )}
 
               {/* Contenido desplazable */}
               <div className="flex-grow overflow-y-auto p-8">
