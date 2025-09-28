@@ -60,7 +60,7 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
                 images.map((img, index) => (
                   <div
                     key={`${img.filename}-${index}`}
-                    className={`relative w-28 h-28 rounded-md overflow-hidden border-2 cursor-pointer transition-all duration-200 flex-shrink-0 {/* Tamaño de miniatura aumentado */}
+                    className={`relative w-32 h-32 rounded-md overflow-hidden border-2 cursor-pointer transition-all duration-200 flex-shrink-0 {/* Tamaño de miniatura aumentado */}
                       ${selectedImage?.filename === img.filename ? "border-primary ring-2 ring-primary" : "border-border hover:border-primary/50"}`}
                     onClick={() => setSelectedImage(img)}
                   >
