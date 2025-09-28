@@ -20,7 +20,7 @@ const ImageGroupDisplay: React.FC<ImageGroupDisplayProps> = ({ code, images, onV
       <h3 className="text-2xl font-semibold text-foreground mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
         Código: {code}
       </h3>
-      <div className="grid grid-cols-1 gap-6 justify-items-center"> {/* Cambiado a una sola columna */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6"> {/* Cambiado a cuadrícula responsiva */}
         {images.map((image, index) => (
           <OriginalImageCard
             key={`${image.filename}-${index}`}
