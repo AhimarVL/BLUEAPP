@@ -17,9 +17,7 @@ interface ImageGroupDisplayProps {
 const ImageGroupDisplay: React.FC<ImageGroupDisplayProps> = ({ code, images, onView }) => {
   return (
     <div className="mb-8">
-      <h3 className="text-2xl font-semibold text-foreground mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
-        Código: {code}
-      </h3>
+      {/* Se ha eliminado el encabezado del código del producto de aquí */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
         {images.map((image, index) => (
           <OriginalImageCard

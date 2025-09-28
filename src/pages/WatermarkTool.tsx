@@ -198,11 +198,17 @@ const WatermarkTool: React.FC = () => {
                       // Mostrar todos los grupos con encabezados y separadores
                       Object.entries(groupedImages).map(([code, images], index) => (
                         <React.Fragment key={code}>
+                          <div className="text-gray-500 dark:text-white opacity-50 text-center text-sm mb-2">
+                            Código del producto: {code}
+                          </div>
                           <ImageGroupDisplay
                             code={code}
                             images={images}
                             onView={handleViewImage}
                           />
+                          <div className="text-gray-500 dark:text-white opacity-50 text-center text-sm mt-2">
+                            Código del producto: {code}
+                          </div>
                           {index < Object.keys(groupedImages).length - 1 && (
                             <Separator className="my-10 bg-gray-200 dark:bg-gray-700" />
                           )}
@@ -211,12 +217,19 @@ const WatermarkTool: React.FC = () => {
                     ) : (
                       // Mostrar solo el grupo seleccionado
                       groupedImages[selectedGroup] && (
-                        <ImageGroupDisplay
-                          key={selectedGroup}
-                          code={selectedGroup}
-                          images={groupedImages[selectedGroup]}
-                          onView={handleViewImage}
-                        />
+                        <React.Fragment key={selectedGroup}>
+                          <div className="text-gray-500 dark:text-white opacity-50 text-center text-sm mb-2">
+                            Código del producto: {selectedGroup}
+                          </div>
+                          <ImageGroupDisplay
+                            code={selectedGroup}
+                            images={groupedImages[selectedGroup]}
+                            onView={handleViewImage}
+                          />
+                          <div className="text-gray-500 dark:text-white opacity-50 text-center text-sm mt-2">
+                            Código del producto: {selectedGroup}
+                          </div>
+                        </React.Fragment>
                       )
                     )}
                   </div>
