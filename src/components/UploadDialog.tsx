@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ImageUploader from "@/components/ImageUploader";
-import UploadedImagePreviews from "@/components/UploadedImagePreviews"; // Mantener la importación
+import UploadedImagePreviews from "@/components/UploadedImagePreviews";
 
 interface ImageFile {
   dataUrl: string;
@@ -24,7 +24,7 @@ interface UploadDialogProps {
   onConfirm: () => void;
   hasImages: boolean;
   selectedImages: ImageFile[];
-  onRemoveImage: (filename: string) => void; // Nueva prop para eliminar imágenes
+  onRemoveImage: (filename: string) => void;
 }
 
 const UploadDialog: React.FC<UploadDialogProps> = ({
@@ -34,7 +34,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   onConfirm,
   hasImages,
   selectedImages,
-  onRemoveImage, // Recibir la nueva prop
+  onRemoveImage,
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -59,7 +59,10 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
         )}
 
         <div className="flex justify-end mt-8 gap-4 flex-shrink-0">
-          <Button onClick={onClose} variant="outline" className="px-6 py-3 text-base border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white">
+          <Button 
+            onClick={onClose} 
+            className="px-6 py-3 text-base bg-gray-700 text-white hover:bg-gray-600 border border-gray-700 hover:border-gray-600" // Estilos actualizados
+          >
             Cancelar
           </Button>
           <Button onClick={onConfirm} disabled={!hasImages} className="px-6 py-3 text-base bg-primary text-primary-foreground hover:bg-primary/90">
