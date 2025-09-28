@@ -121,7 +121,7 @@ const WatermarkTool: React.FC = () => {
             const productCanvasDataUrl = await generateProductCanvasImage(image.dataUrl);
             if (productCanvasDataUrl) {
               const canvasBlob = await (await fetch(productCanvasDataUrl)).blob();
-              blueFolder?.file(`${originalFilename}-Lienzo.png`, canvasBlob);
+              blueFolder?.file(`${originalFilename}.png`, canvasBlob); // Removed -Lienzo suffix
             }
           }
         }
