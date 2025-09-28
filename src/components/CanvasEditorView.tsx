@@ -34,8 +34,8 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
   };
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
-      <div className="flex-grow flex flex-col items-center justify-center gap-6 overflow-hidden">
+    <div className="flex flex-col h-full"> {/* Eliminado overflow-hidden */}
+      <div className="flex-grow flex flex-col items-center gap-6 pt-8 pb-4"> {/* Eliminado justify-center y añadido padding vertical */}
         {/* Main Canvas Editor Area */}
         <div className="flex-shrink-0">
           {selectedImage ? (
@@ -51,7 +51,7 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         <div className="w-full flex-shrink-0 mt-8">
           <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4>
           <ScrollArea className="h-[150px] w-full px-4">
-            <div className="grid grid-cols-6 gap-3 justify-center"> {/* Cambiado a grid de 6 columnas */}
+            <div className="grid grid-cols-6 gap-3 justify-center">
               {images.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center">
                   No hay imágenes cargadas.

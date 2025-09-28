@@ -147,44 +147,51 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-6 p-4 bg-card border border-border rounded-lg shadow-md">
+    <div className="flex flex-col items-center gap-6 p-4 bg-card border border-border rounded-lg shadow-md w-full max-w-4xl mx-auto"> {/* Añadido max-w-4xl y mx-auto */}
       <h3 className="text-xl font-bold text-foreground text-center">{image.filename}</h3>
-      <div
-        className="relative border border-border rounded-md overflow-hidden cursor-grab active:cursor-grabbing"
-        style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
-      >
-        <canvas ref={canvasRef} className="block" />
-      </div>
 
-      <div className="w-full max-w-md flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <ZoomOut className="h-5 w-5 text-muted-foreground" />
-          <Slider
-            min={0.1}
-            max={5}
-            step={0.05}
-            value={[scale]}
-            onValueChange={handleZoom}
-            className="w-full"
-          />
-          <ZoomIn className="h-5 w-5 text-muted-foreground" />
+      <div className="flex flex-col md:flex-row gap-6 w-full justify-center items-center md:items-start"> {/* Contenedor para layout horizontal */}
+        {/* Canvas a la izquierda */}
+        <div
+          className="relative border border-border rounded-md overflow-hidden cursor-grab active:cursor-grabbing flex-shrink-0"
+          style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+        >
+          <canvas ref={canvasRef} className="block" />
         </div>
-        <div className="flex justify-center gap-2 text-sm text-muted-foreground">
-          <Move className="h-4 w-4" /> Arrastra la imagen para moverla.
+
+        {/* Controles a la derecha */}
+        <div className="flex flex-col gap-4 w-full md:w-auto md:max-w-xs justify-between h-[300px]"> {/* Ajustado ancho y añadido justify-between */}
+          <div className="w-full flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <ZoomOut className="h-5 w-5 text-muted-foreground" />
+              <Slider
+                min={0.1}
+                max={5}
+                step={0.05}
+                value={[scale]}
+                onValueChange={handleZoom}
+                className="w-full"
+              />
+              <ZoomIn className="h-5 w-5 text-muted-foreground" />
+            </div>
+            <div className="flex justify-center gap-2 text-sm text-muted-foreground">
+              <Move className="h-4 w-4" /> Arrastra la imagen para moverla.
+            </div>
+          </div>
+
+          <Button
+            onClick={handleDownloadClick}
+            disabled={!trimmedImageDataUrl}
+            className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <Download className="h-4 w-4" /> Descargar Lienzo Editado
+          </Button>
         </div>
       </div>
-
-      <Button
-        onClick={handleDownloadClick}
-        disabled={!trimmedImageDataUrl}
-        className="w-full max-w-xs flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
-      >
-        <Download className="h-4 w-4" /> Descargar Lienzo Editado
-      </Button>
     </div>
   );
 };
