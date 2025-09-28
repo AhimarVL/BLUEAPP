@@ -13,9 +13,7 @@ interface OriginalImageCardProps {
 const OriginalImageCard: React.FC<OriginalImageCardProps> = ({ image, onView }) => {
   return (
     <Card className="flex flex-col items-center space-y-4 p-4 shadow-sm hover:shadow-md transition-shadow duration-300 bg-card border border-border rounded-lg w-full max-w-[300px]">
-      <p className="text-base font-medium text-foreground text-center break-all px-1">
-        {image.filename}
-      </p>
+      {/* Se ha eliminado el nombre del archivo de aquí */}
       <div className="border border-border rounded-md overflow-hidden w-full aspect-square flex items-center justify-center bg-white dark:bg-gray-950">
         <img
           src={image.dataUrl}

@@ -6,9 +6,10 @@ import Sidebar from "@/components/Sidebar";
 import OriginalImageCard from "@/components/OriginalImageCard";
 import ImagePreviewDialog from "@/components/ImagePreviewDialog";
 import CanvasEditorView from "@/components/CanvasEditorView";
-import ImageGroupDisplay from "@/components/ImageGroupDisplay"; // Importar el nuevo componente
+import ImageGroupDisplay from "@/components/ImageGroupDisplay";
 import { Card, CardContent } from "@/components/ui/card";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
+import { Separator } from "@/components/ui/separator"; // Importar Separator
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { applyWatermarkToImage } from "@/utils/watermarkUtils";
@@ -163,7 +164,7 @@ const WatermarkTool: React.FC = () => {
           onConfirm={handleConfirmUpload}
           hasImages={selectedImages.length > 0}
           selectedImages={selectedImages}
-          onRemoveImage={handleRemoveImage} // Pasar la función de eliminación
+          onRemoveImage={handleRemoveImage}
         />
       ) : (
         <ResizablePanelGroup direction="horizontal" className="h-full">
@@ -192,16 +193,20 @@ const WatermarkTool: React.FC = () => {
                     Carga imágenes para empezar a ver las previsualizaciones.
                   </p>
                 ) : (
-                  <div className="space-y-10"> {/* Añadir espacio entre grupos */}
+                  <div className="space-y-10">
                     {selectedGroup === null ? (
-                      // Mostrar todos los grupos con encabezados
-                      Object.entries(groupedImages).map(([code, images]) => (
-                        <ImageGroupDisplay
-                          key={code}
-                          code={code}
-                          images={images}
-                          onView={handleViewImage}
-                        />
+                      // Mostrar todos los grupos con encabezados y separadores
+                      Object.entries(groupedImages).map(([code, images], index) => (
+                        <React.Fragment key={code}>
+                          <ImageGroupDisplay
+                            code={code}
+                            images={images}
+                            onView={handleViewImage}
+                          />
+                          {index < Object.keys(groupedImages).length - 1 && (
+                            <Separator className="my-10 bg-gray-200 dark:bg-gray-700" />
+                          )}
+                        </React.Fragment>
                       ))
                     ) : (
                       // Mostrar solo el grupo seleccionado
