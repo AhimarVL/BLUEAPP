@@ -183,48 +183,62 @@ const WatermarkTool: React.FC = () => {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={80}>
-            {currentRightPanel === 'previews' ? (
-              <div className="h-full overflow-y-auto p-8 bg-white"> {/* Fondo blanco fijo */}
-                <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
-                  Previsualización de Imágenes
+            <div className="flex flex-col h-full bg-white dark:bg-gray-950"> {/* Contenedor principal del panel derecho */}
+              {/* Encabezado fijo */}
+              <div className="flex-shrink-0 p-8 pb-4 border-b border-border">
+                <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+                  {currentRightPanel === 'previews' ? "Previsualización de Imágenes" : "Editor de Imágenes para Lienzo"}
                 </h2>
-                {selectedImages.length === 0 ? (
-                  <p className="text-xl text-gray-500 dark:text-gray-400 text-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl w-full max-w-xl mx-auto bg-gray-100 dark:bg-gray-800">
-                    Carga imágenes para empezar a ver las previsualizaciones.
-                  </p>
-                ) : (
-                  <div className="space-y-10">
-                    {selectedGroup === null ? (
-                      // Mostrar todos los grupos con encabezados y separadores
-                      Object.entries(groupedImages).map(([code, images], index) => (
-                        <React.Fragment key={code}>
-                          <ImageGroupDisplay
-                            code={code}
-                            images={images}
-                            onView={handleViewImage}
-                          />
-                          {index < Object.keys(groupedImages).length - 1 && (
-                            <Separator className="my-10 bg-gray-200 dark:bg-gray-700" />
-                          )}
-                        </React.Fragment>
-                      ))
+                <p className="text-center text-muted-foreground mt-2">
+                  {currentRightPanel === 'previews'
+                    ? "Aquí puedes ver tus imágenes cargadas y sus previsualizaciones."
+                    : "Ajusta tus imágenes en el lienzo de 500x300 píxeles."}
+                </p>
+              </div>
+
+              {/* Contenido desplazable */}
+              <div className="flex-grow overflow-y-auto p-8">
+                {currentRightPanel === 'previews' ? (
+                  <>
+                    {selectedImages.length === 0 ? (
+                      <p className="text-xl text-gray-500 dark:text-gray-400 text-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl w-full max-w-xl mx-auto bg-gray-100 dark:bg-gray-800">
+                        Carga imágenes para empezar a ver las previsualizaciones.
+                      </p>
                     ) : (
-                      // Mostrar solo el grupo seleccionado
-                      groupedImages[selectedGroup] && (
-                        <ImageGroupDisplay
-                          key={selectedGroup}
-                          code={selectedGroup}
-                          images={groupedImages[selectedGroup]}
-                          onView={handleViewImage}
-                        />
-                      )
+                      <div className="space-y-10">
+                        {selectedGroup === null ? (
+                          // Mostrar todos los grupos con encabezados y separadores
+                          Object.entries(groupedImages).map(([code, images], index) => (
+                            <React.Fragment key={code}>
+                              <ImageGroupDisplay
+                                code={code}
+                                images={images}
+                                onView={handleViewImage}
+                              />
+                              {index < Object.keys(groupedImages).length - 1 && (
+                                <Separator className="my-10 bg-gray-200 dark:bg-gray-700" />
+                              )}
+                            </React.Fragment>
+                          ))
+                        ) : (
+                          // Mostrar solo el grupo seleccionado
+                          groupedImages[selectedGroup] && (
+                            <ImageGroupDisplay
+                              key={selectedGroup}
+                              code={selectedGroup}
+                              images={groupedImages[selectedGroup]}
+                              onView={handleViewImage}
+                            />
+                          )
+                        )}
+                      </div>
                     )}
-                  </div>
+                  </>
+                ) : (
+                  <CanvasEditorView images={selectedImages} />
                 )}
               </div>
-            ) : (
-              <CanvasEditorView images={selectedImages} />
-            )}
+            </div>
           </ResizablePanel>
         </ResizablePanelGroup>
       )}

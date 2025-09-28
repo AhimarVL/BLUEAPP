@@ -34,19 +34,10 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
   };
 
   return (
-    <div className="flex flex-col h-full p-8 bg-white dark:bg-gray-950">
-      <div className="pb-4 text-center flex-shrink-0">
-        <h2 className="text-3xl font-bold text-foreground">
-          Editor de Imágenes para Lienzo
-        </h2>
-        <p className="text-muted-foreground mt-2">
-          Selecciona una imagen para ajustarla en el lienzo de 500x300 píxeles. Puedes moverla y hacer zoom para encajar el producto.
-        </p>
-      </div>
-
-      <div className="flex-grow flex flex-col items-center justify-center gap-6 mt-6 overflow-hidden"> {/* Cambiado a flex-col y centrado */}
+    <div className="flex flex-col h-full overflow-hidden"> {/* Eliminado p-8 y bg-white/dark:bg-gray-950, y añadido overflow-hidden */}
+      <div className="flex-grow flex flex-col items-center justify-center gap-6 overflow-hidden"> {/* Eliminado mt-6 */}
         {/* Main Canvas Editor Area */}
-        <div className="flex-shrink-0"> {/* Eliminar flex-grow para que no ocupe todo el espacio vertical */}
+        <div className="flex-shrink-0">
           {selectedImage ? (
             <CanvasEditor image={selectedImage} onDownload={handleDownloadCanvas} />
           ) : (
@@ -57,10 +48,10 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         </div>
 
         {/* Image Selection Thumbnails */}
-        <div className="w-full flex-shrink-0 mt-8"> {/* Añadido mt-8 para espacio */}
-          <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4> {/* Centrado */}
-          <ScrollArea className="h-[150px] w-full px-4"> {/* Altura fija para la scroll area */}
-            <div className="flex gap-3 justify-center"> {/* Centrar las miniaturas */}
+        <div className="w-full flex-shrink-0 mt-8">
+          <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4>
+          <ScrollArea className="h-[150px] w-full px-4">
+            <div className="flex gap-3 justify-center">
               {images.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center">
                   No hay imágenes cargadas.
