@@ -60,11 +60,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
   return (
     <Card
       className={cn(
-        "w-full max-w-2xl p-6 text-center transition-all duration-300 ease-in-out cursor-pointer",
-        "border-2 rounded-3xl", // Revertido: eliminado backdrop-blur-sm
+        "w-full max-w-xl p-6 text-center transition-all duration-300 ease-in-out cursor-pointer", // Cambiado de max-w-2xl a max-w-xl
+        "border-2 rounded-3xl",
         isDragging
           ? "border-primary bg-primary/5"
-          : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-800", // Revertido a fondo oscuro sólido
+          : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-800",
       )}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
