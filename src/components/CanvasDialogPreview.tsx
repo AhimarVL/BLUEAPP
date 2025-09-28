@@ -38,7 +38,7 @@ const CanvasDialogPreview: React.FC<CanvasDialogPreviewProps> = ({ image }) => {
 
   return (
     <Card className="flex flex-col items-center space-y-4 p-4 shadow-sm hover:shadow-md transition-shadow duration-300 bg-card border border-border rounded-lg w-full max-w-[300px]">
-      <p className="text-xl font-semibold text-foreground">BLUE</p>
+      <p className="text-xl font-semibold text-foreground">Lienzo (500x300)</p>
       <div className="border border-border rounded-md overflow-hidden w-full aspect-video flex items-center justify-center bg-white dark:bg-gray-950">
         {isLoading ? (
           <Loader2 className="h-8 w-8 animate-spin text-primary" />

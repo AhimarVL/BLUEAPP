@@ -37,8 +37,8 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
-        className="max-w-3xl p-8 bg-[#27292b] rounded-[4rem] shadow-lg flex flex-col max-h-[90vh] border-none"
-        onOpenAutoFocus={(e) => e.preventDefault()} // Evita el foco automático al abrir
+        className="max-w-3xl p-8 bg-[#27292b] rounded-2xl shadow-lg flex flex-col max-h-[90vh] border-none"
+        onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader className="pb-4 text-center flex-shrink-0">
           {/* Títulos y descripciones eliminados */}
@@ -51,7 +51,6 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
           
           {hasImages && (
             <div className="flex-grow overflow-y-auto border border-gray-700 rounded-xl p-4 bg-[#27292b] mx-auto w-full max-w-2xl">
-              {/* <h3 className="text-xl font-bold text-gray-100 mb-4 text-center">Archivos Cargados</h3> */}
               <UploadedImagePreviews images={selectedImages} onRemoveImage={onRemoveImage} />
             </div>
           )}
