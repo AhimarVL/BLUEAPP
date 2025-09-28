@@ -35,7 +35,7 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
 
   return (
     <div className="flex flex-col h-full"> {/* Eliminado overflow-hidden */}
-      <div className="flex-grow flex flex-col items-center gap-6 pt-8 pb-4"> {/* Eliminado justify-center y añadido padding vertical */}
+      <div className="flex-grow flex flex-col items-center gap-6 pt-8 pb-4"> {/* Eliminado justify-center y overflow-hidden */}
         {/* Main Canvas Editor Area */}
         <div className="flex-shrink-0">
           {selectedImage ? (
