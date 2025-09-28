@@ -45,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     <div className="flex flex-col h-full bg-card border-r border-border p-4">
       <div className="flex flex-col gap-3 mb-6">
         <Button onClick={onReset} variant="outline" className="w-full flex items-center justify-center gap-2 text-foreground hover:bg-muted">
-          <RotateCcw className="h-4 w-4" /> Reiniciar
+          <RotateCcw className="h-4 w-4 text-primary" /> Reiniciar
         </Button>
         <Button onClick={onAddImages} className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
           <Plus className="h-4 w-4" /> Añadir Imágenes
@@ -56,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           className="w-full flex items-center justify-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80"
         >
           {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
-          <Download className="h-4 w-4" />
+          <Download className="h-4 w-4 text-primary" />
         </Button>
       </div>
 
@@ -73,7 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           )}
           disabled={!hasImages}
         >
-          <ImageIcon className="h-4 w-4" /> Previsualizar Imágenes
+          <ImageIcon className="h-4 w-4 mr-2 text-primary" /> Previsualizar Imágenes
         </Button>
         <Button
           onClick={() => onSelectRightPanel('canvasEditor')}
@@ -84,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           )}
           disabled={!hasImages}
         >
-          <LayoutDashboard className="h-4 w-4" /> Editor de Lienzos
+          <LayoutDashboard className="h-4 w-4 mr-2 text-primary" /> Editor de Lienzos
         </Button>
       </div>
 
@@ -106,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 selectedGroup === null && "bg-muted text-foreground"
               )}
             >
-              <ImageIcon className="h-4 w-4 mr-2" /> Todas las Imágenes
+              <ImageIcon className="h-4 w-4 mr-2 text-primary" /> Todas las Imágenes
             </Button>
             {Object.entries(groupedImages).map(([code, images]) => (
               <Button
@@ -118,7 +118,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   selectedGroup === code && "bg-muted text-foreground"
                 )}
               >
-                <ImageIcon className="h-4 w-4 mr-2" /> {code} ({images.length})
+                <ImageIcon className="h-4 w-4 mr-2 text-primary" /> {code} ({images.length})
               </Button>
             ))}
           </div>
