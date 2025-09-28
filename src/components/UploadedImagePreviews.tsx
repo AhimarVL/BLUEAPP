@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { XCircle } from "lucide-react"; // Importar icono de eliminar
+import { XCircle } from "lucide-react";
 
 interface ImageFile {
   dataUrl: string;
@@ -12,7 +12,7 @@ interface ImageFile {
 
 interface UploadedImagePreviewsProps {
   images: ImageFile[];
-  onRemoveImage: (filename: string) => void; // Nueva prop para eliminar
+  onRemoveImage: (filename: string) => void;
 }
 
 const UploadedImagePreviews: React.FC<UploadedImagePreviewsProps> = ({ images, onRemoveImage }) => {
@@ -26,25 +26,25 @@ const UploadedImagePreviews: React.FC<UploadedImagePreviewsProps> = ({ images, o
 
   return (
     <ScrollArea className="h-full w-full">
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2"> {/* Espacio entre elementos reducido */}
         {images.map((image, index) => (
           <Card key={`${image.filename}-${index}`} className="flex items-center p-2 bg-[#1f1f1f] border border-gray-700 rounded-lg shadow-sm">
-            <div className="relative w-12 h-12 rounded-md overflow-hidden border border-muted flex items-center justify-center bg-background flex-shrink-0">
+            <div className="relative w-10 h-10 rounded-md overflow-hidden border border-muted flex items-center justify-center bg-background flex-shrink-0"> {/* Tamaño del thumbnail reducido */}
               <img
                 src={image.dataUrl}
                 alt={image.filename}
                 className="object-cover w-full h-full"
               />
             </div>
-            <p className="ml-4 flex-grow text-sm text-gray-200 truncate">
+            <p className="ml-3 flex-grow text-sm text-gray-200 truncate"> {/* Margen izquierdo reducido */}
               {image.filename}
             </p>
             <button
               onClick={() => onRemoveImage(image.filename)}
-              className="ml-auto p-1 text-gray-400 hover:text-destructive transition-colors duration-200"
+              className="ml-auto p-0.5 text-gray-400 hover:text-destructive transition-colors duration-200" // Padding del botón reducido
               aria-label={`Eliminar ${image.filename}`}
             >
-              <XCircle className="h-5 w-5" />
+              <XCircle className="h-4 w-4" /> {/* Tamaño del icono reducido */}
             </button>
           </Card>
         ))}
