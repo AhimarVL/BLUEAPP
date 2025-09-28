@@ -44,9 +44,9 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         </p>
       </div>
 
-      <div className="flex-grow flex flex-col items-center justify-center gap-6 mt-6 overflow-hidden">
+      <div className="flex-grow flex flex-col items-center justify-center gap-6 mt-6 overflow-hidden"> {/* Cambiado a flex-col y centrado */}
         {/* Main Canvas Editor Area */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0"> {/* Eliminar flex-grow para que no ocupe todo el espacio vertical */}
           {selectedImage ? (
             <CanvasEditor image={selectedImage} onDownload={handleDownloadCanvas} />
           ) : (
@@ -57,10 +57,10 @@ const CanvasEditorView: React.FC<CanvasEditorViewProps> = ({ images }) => {
         </div>
 
         {/* Image Selection Thumbnails */}
-        <div className="w-full flex-shrink-0 mt-8">
-          <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4>
-          <ScrollArea className="h-[400px] w-full px-4"> {/* Altura ajustada para 6 imágenes verticales */}
-            <div className="flex flex-col gap-3 items-center"> {/* Cambiado a flex-col y centrado */}
+        <div className="w-full flex-shrink-0 mt-8"> {/* Añadido mt-8 para espacio */}
+          <h4 className="text-lg font-semibold text-foreground mb-3 text-center">Tus Imágenes</h4> {/* Centrado */}
+          <ScrollArea className="h-[150px] w-full px-4"> {/* Altura fija para la scroll area */}
+            <div className="flex gap-3 justify-center"> {/* Centrar las miniaturas */}
               {images.length === 0 ? (
                 <p className="col-span-full text-sm text-muted-foreground text-center">
                   No hay imágenes cargadas.

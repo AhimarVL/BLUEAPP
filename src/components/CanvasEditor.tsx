@@ -55,7 +55,7 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
       canvas.width = CANVAS_WIDTH;
       canvas.height = CANVAS_HEIGHT;
 
-      ctx.fillStyle = "#FFFFFF"; // White background for the canvas
+      ctx.fillStyle = "#FFFFFF"; // White background
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
       // Calculate safe area with new margins
@@ -147,10 +147,10 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-6 p-4 bg-[#1f1f1f] border border-gray-700 rounded-lg shadow-md"> {/* Fondo oscuro para la tarjeta */}
-      <h3 className="text-xl font-bold text-gray-100 text-center">{image.filename}</h3> {/* Texto claro */}
+    <div className="flex flex-col items-center gap-6 p-4 bg-card border border-border rounded-lg shadow-md">
+      <h3 className="text-xl font-bold text-foreground text-center">{image.filename}</h3>
       <div
-        className="relative border border-gray-700 rounded-md overflow-hidden cursor-grab active:cursor-grabbing" {/* Borde oscuro */}
+        className="relative border border-border rounded-md overflow-hidden cursor-grab active:cursor-grabbing"
         style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -162,7 +162,7 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
 
       <div className="w-full max-w-md flex flex-col gap-4">
         <div className="flex items-center gap-3">
-          <ZoomOut className="h-5 w-5 text-gray-400" /> {/* Iconos claros */}
+          <ZoomOut className="h-5 w-5 text-muted-foreground" />
           <Slider
             min={0.1}
             max={5}
@@ -171,9 +171,9 @@ const CanvasEditor: React.FC<CanvasEditorProps> = ({ image, onDownload }) => {
             onValueChange={handleZoom}
             className="w-full"
           />
-          <ZoomIn className="h-5 w-5 text-gray-400" /> {/* Iconos claros */}
+          <ZoomIn className="h-5 w-5 text-muted-foreground" />
         </div>
-        <div className="flex justify-center gap-2 text-sm text-gray-400"> {/* Texto claro */}
+        <div className="flex justify-center gap-2 text-sm text-muted-foreground">
           <Move className="h-4 w-4" /> Arrastra la imagen para moverla.
         </div>
       </div>
