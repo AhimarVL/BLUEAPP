@@ -42,25 +42,25 @@ const Sidebar: React.FC<SidebarProps> = ({
   const hasImages = Object.keys(groupedImages).length > 0;
 
   return (
-    <div className="flex flex-col h-full bg-gray-950 border-r border-gray-800 p-4 text-white"> {/* Fondo oscuro y texto blanco */}
+    <div className="flex flex-col h-full bg-gray-950 border-r border-gray-800 p-4 text-white">
       <div className="flex flex-col gap-3 mb-6">
-        <Button onClick={onReset} variant="outline" className="w-full flex items-center justify-center gap-2 text-gray-200 hover:bg-gray-800 border-gray-700">
-          <RotateCcw className="h-4 w-4 text-primary" /> Reiniciar
+        <Button onClick={onReset} variant="outline" className="w-full flex items-center justify-start gap-2 text-gray-200 hover:bg-gray-800 border-gray-700">
+          <RotateCcw className="h-4 w-4 mr-2 text-white" /> Reiniciar
         </Button>
-        <Button onClick={onAddImages} className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-          <Plus className="h-4 w-4" /> Añadir Imágenes
+        <Button onClick={onAddImages} className="w-full flex items-center justify-start gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+          <Plus className="h-4 w-4 mr-2 text-white" /> Añadir Imágenes
         </Button>
         <Button
           onClick={onDownloadAll}
           disabled={isDownloading || !hasImages}
-          className="w-full flex items-center justify-center gap-2 bg-gray-700 text-white hover:bg-gray-600"
+          className="w-full flex items-center justify-start gap-2 bg-gray-700 text-white hover:bg-gray-600"
         >
           {isDownloading ? "Preparando descarga..." : "Descargar Todo"}
-          <Download className="h-4 w-4 text-primary" />
+          <Download className="h-4 w-4 ml-auto text-white" /> {/* Icono de descarga a la derecha */}
         </Button>
       </div>
 
-      <Separator className="my-4 bg-gray-700" /> {/* Separador oscuro */}
+      <Separator className="my-4 bg-gray-700" />
 
       {/* Apartado para cambiar entre vistas del panel derecho */}
       <div className="mb-6 flex flex-col gap-3">
@@ -68,29 +68,29 @@ const Sidebar: React.FC<SidebarProps> = ({
           onClick={() => onSelectRightPanel('previews')}
           variant={currentRightPanel === 'previews' ? "secondary" : "ghost"}
           className={cn(
-            "w-full flex items-center justify-center gap-2",
+            "w-full flex items-center justify-start gap-2",
             currentRightPanel === 'previews' ? "bg-gray-700 text-white hover:bg-gray-600" : "text-gray-300 hover:bg-gray-800"
           )}
           disabled={!hasImages}
         >
-          <ImageIcon className="h-4 w-4 mr-2 text-primary" /> Previsualizar Imágenes
+          <ImageIcon className="h-4 w-4 mr-2 text-white" /> Previsualizar Imágenes
         </Button>
         <Button
           onClick={() => onSelectRightPanel('canvasEditor')}
           variant={currentRightPanel === 'canvasEditor' ? "secondary" : "ghost"}
           className={cn(
-            "w-full flex items-center justify-center gap-2",
+            "w-full flex items-center justify-start gap-2",
             currentRightPanel === 'canvasEditor' ? "bg-gray-700 text-white hover:bg-gray-600" : "text-gray-300 hover:bg-gray-800"
           )}
           disabled={!hasImages}
         >
-          <LayoutDashboard className="h-4 w-4 mr-2 text-primary" /> Editor de Lienzos
+          <LayoutDashboard className="h-4 w-4 mr-2 text-white" /> Editor de Lienzos
         </Button>
       </div>
 
-      <Separator className="my-4 bg-gray-700" /> {/* Separador oscuro */}
+      <Separator className="my-4 bg-gray-700" />
 
-      <h3 className="text-lg font-semibold text-white mb-3">Imágenes Cargadas</h3> {/* Texto blanco */}
+      <h3 className="text-lg font-semibold text-white mb-3">Imágenes Cargadas</h3>
       {!hasImages ? (
         <p className="text-sm text-gray-400 text-center py-4">
           No hay imágenes cargadas.
@@ -106,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 selectedGroup === null ? "bg-gray-700 text-white hover:bg-gray-600" : "text-gray-300 hover:bg-gray-800"
               )}
             >
-              <ImageIcon className="h-4 w-4 mr-2 text-primary" /> Todas las Imágenes
+              <ImageIcon className="h-4 w-4 mr-2 text-white" /> Todas las Imágenes
             </Button>
             {Object.entries(groupedImages).map(([code, images]) => (
               <Button
@@ -118,7 +118,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   selectedGroup === code ? "bg-gray-700 text-white hover:bg-gray-600" : "text-gray-300 hover:bg-gray-800"
                 )}
               >
-                <ImageIcon className="h-4 w-4 mr-2 text-primary" /> {code} ({images.length})
+                <ImageIcon className="h-4 w-4 mr-2 text-white" /> {code} ({images.length})
               </Button>
             ))}
           </div>
