@@ -20,7 +20,7 @@ const ImageGroupDisplay: React.FC<ImageGroupDisplayProps> = ({ code, images, onV
       <h3 className="text-2xl font-semibold text-foreground mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
         Código: {code}
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
+      <div className="grid grid-cols-1 gap-6 justify-items-center"> {/* Cambiado a una sola columna */}
         {images.map((image, index) => (
           <OriginalImageCard
             key={`${image.filename}-${index}`}
