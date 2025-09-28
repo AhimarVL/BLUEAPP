@@ -102,7 +102,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className="sm:max-w-[800px] max-h-[90vh] flex flex-col p-4 bg-background text-foreground rounded-lg shadow-xl" // Reducido de p-6 a p-4
+        className="sm:max-w-[800px] max-h-[90vh] flex flex-col p-4 bg-background text-foreground rounded-lg shadow-xl"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -110,7 +110,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
         <Button
           variant="ghost"
           size="icon"
-          className="absolute top-4 right-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+          className="absolute top-2 right-2 rounded-full opacity-100 bg-background hover:bg-accent hover:opacity-70 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
           onClick={onClose}
         >
           <X className="h-4 w-4" />
@@ -118,7 +118,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
         </Button>
 
         <div
-          className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-lg transition-colors duration-200 ${ // Reducido de p-8 a p-6
+          className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-lg transition-colors duration-200 ${
             isDragging
               ? "border-blue-500 bg-blue-50 dark:bg-blue-950/20"
               : "border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"
