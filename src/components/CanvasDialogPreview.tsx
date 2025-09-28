@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { generateProductCanvasImage } from "@/utils/imageProcessingUtils";
-import ZoomableImage from "./ZoomableImage"; // Importar el nuevo componente
 
 interface CanvasDialogPreviewProps {
   image: { dataUrl: string; filename: string };
@@ -46,11 +45,10 @@ const CanvasDialogPreview: React.FC<CanvasDialogPreviewProps> = ({ image }) => {
         ) : error ? (
           <p className="text-destructive text-center text-sm p-2">{error}</p>
         ) : (
-          <ZoomableImage
+          <img
             src={canvasDataUrl || ""}
             alt={`Lienzo de ${image.filename}`}
             className="max-w-full max-h-full object-contain p-1"
-            containerClassName="w-full h-full"
           />
         )}
       </div>

@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import WatermarkPreview from "@/components/WatermarkPreview";
 import CanvasDialogPreview from "@/components/CanvasDialogPreview";
-import ZoomableImage from "./ZoomableImage"; // Importar el nuevo componente
 
 interface ImagePreviewDialogProps {
   isOpen: boolean;
@@ -44,11 +43,10 @@ const ImagePreviewDialog: React.FC<ImagePreviewDialogProps> = ({
           <div className="flex flex-col items-center space-y-4 p-4 border border-border rounded-lg bg-white dark:bg-gray-950 shadow-sm">
             <p className="text-xl font-semibold text-foreground">Original</p>
             <div className="border border-border rounded-md overflow-hidden w-full aspect-square flex items-center justify-center bg-white dark:bg-gray-950">
-              <ZoomableImage
+              <img
                 src={originalImage.dataUrl}
                 alt={originalImage.filename}
                 className="max-w-full max-h-full object-contain p-1"
-                containerClassName="w-full h-full"
               />
             </div>
           </div>

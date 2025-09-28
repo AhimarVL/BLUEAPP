@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Download } from "lucide-react";
 import { applyWatermarkToImage } from "@/utils/watermarkUtils";
-import ZoomableImage from "./ZoomableImage"; // Importar el nuevo componente
 
 interface WatermarkPreviewProps {
   image: { dataUrl: string; filename: string } | null;
@@ -68,11 +67,10 @@ const WatermarkPreview: React.FC<WatermarkPreviewProps> = ({
           <p className="text-xl font-semibold text-foreground">{watermarkLabel}</p>
           <div className="border border-border rounded-md overflow-hidden w-full aspect-square flex items-center justify-center bg-white dark:bg-gray-950">
             {watermarkedDataUrl ? (
-              <ZoomableImage
+              <img
                 src={watermarkedDataUrl}
                 alt={`${image.filename} con marca de agua ${watermarkLabel}`}
                 className="max-w-full max-h-full object-contain p-1"
-                containerClassName="w-full h-full"
               />
             ) : (
               <p className="text-muted-foreground text-sm">Cargando...</p>
