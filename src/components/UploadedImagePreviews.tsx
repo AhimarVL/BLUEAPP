@@ -20,7 +20,7 @@ const UploadedImagePreviews: React.FC<UploadedImagePreviewsProps> = ({
   onRemoveImage,
 }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"> {/* Cambiado a 2 columnas en sm y 3 en md+ */}
+    <div className="grid grid-cols-1 gap-4"> {/* Cambiado a 1 columna para todas las pantallas */}
       {images.map((image, index) => (
         <Card 
           key={`${image.filename}-${index}`} 
