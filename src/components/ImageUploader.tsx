@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils";
 
 interface ImageUploaderProps {
   onImagesSelected: (images: { dataUrl: string; filename: string }[]) => void;
+  uploaderBorderRadius: number; // Nueva prop
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected, uploaderBorderRadius }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -60,7 +61,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImagesSelected }) => {
     <Card
       className={cn(
         "w-full max-w-2xl p-6 text-center cursor-pointer transition-all duration-300 ease-in-out",
-        "border-2 rounded-3xl", // Cambiado a rounded-3xl
+        "border-2",
+        `rounded-[${uploaderBorderRadius}px]`, // Aplicar el radio de borde dinámico
         isDragging
           ? "border-primary bg-primary/5"
           : "border-gray-700 bg-[#27292b] hover:border-primary/80 hover:bg-gray-700",

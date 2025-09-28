@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import ImageUploader from "@/components/ImageUploader";
 import UploadedImagePreviews from "@/components/UploadedImagePreviews";
+import { cn } from "@/lib/utils";
 
 interface ImageFile {
   dataUrl: string;
@@ -24,6 +25,8 @@ interface UploadDialogProps {
   onConfirm: () => void;
   hasImages: boolean;
   selectedImages: ImageFile[];
+  dialogBorderRadius: number; // Nueva prop
+  uploaderBorderRadius: number; // Nueva prop
 }
 
 const UploadDialog: React.FC<UploadDialogProps> = ({
@@ -33,10 +36,17 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
   onConfirm,
   hasImages,
   selectedImages,
+  dialogBorderRadius, // Usar la nueva prop
+  uploaderBorderRadius, // Usar la nueva prop
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl p-8 bg-[#1f1f1f] rounded-3xl shadow-lg flex flex-col max-h-[90vh]">
+      <DialogContent
+        className={cn(
+          "max-w-3xl p-8 bg-[#1f1f1f] shadow-lg flex flex-col max-h-[90vh]",
+          `rounded-[${dialogBorderRadius}px]` // Aplicar el radio de borde dinámico
+        )}
+      >
         <DialogHeader className="pb-4 text-center flex-shrink-0">
           <DialogTitle className="text-3xl font-bold text-white">
             Cargar Archivos
@@ -46,7 +56,7 @@ const UploadDialog: React.FC<UploadDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="mt-6 flex-shrink-0">
-          <ImageUploader onImagesSelected={onImagesSelected} />
+          <ImageUploader onImagesSelected={onImagesSelected} uploaderBorderRadius={uploaderBorderRadius} />
         </div>
         <div className="flex justify-end mt-8 gap-4 flex-shrink-0">
           <Button onClick={onClose} variant="outline" className="px-6 py-3 text-base">
